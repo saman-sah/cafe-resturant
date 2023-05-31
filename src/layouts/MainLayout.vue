@@ -12,10 +12,24 @@
         />
 
         <q-toolbar-title>
-          Quasar App
+          <q-item
+          clickable
+          tag="a"
+          to="/"
+          class="text-white">
+            Resturant - Café
+          </q-item>
+          
         </q-toolbar-title>
 
-        <div>Quasar v{{ $q.version }}</div>
+        <div>
+          <q-btn 
+          @click="loginToggle= !loginToggle"
+          flat
+          >
+            Login
+          </q-btn>
+        </div>
       </q-toolbar>
     </q-header>
 
@@ -39,6 +53,11 @@
       </q-list>
     </q-drawer>
 
+    <!-- Login Modal Component -->
+    <q-dialog v-model="loginToggle">
+      <Login />
+    </q-dialog>
+
     <q-page-container>
       <router-view />
     </q-page-container>
@@ -48,19 +67,20 @@
 <script>
 import { defineComponent, ref } from 'vue'
 import EssentialLink from 'components/EssentialLink.vue'
+import Login from '../components/modals/Login.vue'
 
 const linksList = [
   {
-    title: 'Docs',
-    caption: 'quasar.dev',
-    icon: 'school',
-    link: 'https://quasar.dev'
+    title: 'Login',
+    caption: 'Admin',
+    icon: 'login',
+    link: '#'
   },
   {
-    title: 'Github',
-    caption: 'github.com/quasarframework',
-    icon: 'code',
-    link: 'https://github.com/quasarframework'
+    title: 'Gallery',
+    caption: '',
+    icon: 'view_comfy_alt',
+    link: '#'
   },
   {
     title: 'Discord Chat Channel',
@@ -98,15 +118,17 @@ export default defineComponent({
   name: 'MainLayout',
 
   components: {
-    EssentialLink
+    EssentialLink,
+    Login
   },
 
   setup () {
     const leftDrawerOpen = ref(false)
-
+    const loginToggle= ref(false)
     return {
       essentialLinks: linksList,
       leftDrawerOpen,
+      loginToggle,
       toggleLeftDrawer () {
         leftDrawerOpen.value = !leftDrawerOpen.value
       }
