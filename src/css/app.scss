@@ -1,1 +1,24 @@
 // app global css in SCSS form
+.home {
+    .card-item-store {
+        .q-img__container {
+            border-radius: 0 0 0 100px;
+        }
+    }
+}
+
+
+.store {
+    .q-tabs {
+        border-radius: 4px 4px 0 0 ;
+        // .q-tab--active {
+        //     color: $primary;
+        // }        
+    }
+    .q-tab-panels  {
+        .q-img__container {
+            border-radius: 0 0 50px 0;
+        }
+     }
+    
+}

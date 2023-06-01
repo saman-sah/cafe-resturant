@@ -1,14 +1,24 @@
 <template>
-    <q-page class="q-pa-md">
+    <q-page class="q-pa-md store">
+        <q-banner inline-actions rounded class="text-white bg-red q-mb-md">
+            <strong>Title</strong>
+           <p> You have lost connection to the internet. This app is offline.</p>
+            <template v-slot:action>
+                <span>20item</span>
+            </template>
+        </q-banner>
         <!-- Tabs -->
-        <q-tabs
+        <q-tabs        
         v-model="tab"
         inline-label
-        class="bg-primary text-white shadow-2"
+        dense
+        
+        active-color="primary"
+        class="bg-dark text-white shadow-2 q-pa-sm flex justify-around" 
         >
-            <q-tab name="fastfood" icon="mail" label="FastFood" />
-            <q-tab name="hot" icon="alarm" label="Hot" />
-            <q-tab name="cold" icon="movie" label="Cold" />
+            <q-tab name="fastfood" icon="fastfood" label="FastFood" />
+            <q-tab name="hot" icon="local_fire_department" label="Hot" />
+            <q-tab name="cold" icon="icecream" label="Cold" />
         </q-tabs>
 
 
@@ -16,29 +26,32 @@
 
 
         <!-- Panles -->
-        <q-tab-panels v-model="tab" animated>
+        <q-tab-panels v-model="tab" animated class="shadow-5">
 
             <!-- Fast Food Pnel -->
             <q-tab-panel name="fastfood">
-                <div class="text-h6">fastfood</div>
-                <q-card class="my-card">
+                <q-card class="my-card q-mb-md bg-dark" v-for="n in 4" :key="n">
                     <q-card-section horizontal>
                         <q-img
                         class="col-4"
-                        src="https://cdn.quasar.dev/img/parallax1.jpg"
+                        :src="'https://source.unsplash.com/random/160x120/?fast-food-'+n"
                         />
 
-                        <q-card-section class="q-px-md q-py-xs  title" >
-                            <div class="type row">
-                                <div class="text-overline">Overline</div>
-                            </div>
-                            <div class="title-price row justify-between">
-                                <div class="text-h5 q-mt-sm q-mb-xs">Title</div>
-                                <div class="text-h5 q-mt-sm q-mb-xs">$10.00</div>
-                            </div>
+                        <q-card-section class="q-pa-md title bg-dark col-8" >
+                            <q-item class="title-price row justify-between items-top q-pa-none"
+                            clickable
+                            flat
+                            tag="a"
+                            to="/store/resturant/title"
+                            >
+                                <span class="text-primary text-h6 ">
+                                    Title
+                                </span>
+                                <span class="text-h6 text-white">$10.00</span>
+                            </q-item>
                             <div class="description row">
-                                <div class="text-caption text-grey">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                                <div class="text-caption text-white ">
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                                 </div>
                             </div>                    
                         </q-card-section>
@@ -48,25 +61,28 @@
 
             <!-- Hot Drinks Pnel -->
             <q-tab-panel name="hot">
-                <div class="text-h6">hot</div>
-                <q-card class="my-card">
+                <q-card class="my-card q-mb-md bg-dark" v-for="n in 4" :key="n">
                     <q-card-section horizontal>
                         <q-img
                         class="col-4"
-                        src="https://cdn.quasar.dev/img/parallax1.jpg"
+                        :src="'https://source.unsplash.com/random/160x120/?fast-food-'+n"
                         />
 
-                        <q-card-section class="q-pa-md title" >
-                            <div class="type row">
-                                <div class="text-overline">Overline</div>
-                            </div>
-                            <div class="title-price row justify-between">
-                                <div class="text-h5 q-mt-sm q-mb-xs">Title</div>
-                                <div class="text-h5 q-mt-sm q-mb-xs">$10.00</div>
-                            </div>
+                        <q-card-section class="q-pa-md title col-8" >
+                            <q-item class="title-price row justify-between items-top q-pa-none"
+                            clickable
+                            flat
+                            tag="a"
+                            to="/store/resturant/title"
+                            >
+                                <span class="text-primary text-h6 ">
+                                    Title
+                                </span>
+                                <span class="text-h6 text-white">$10.00</span>
+                            </q-item>
                             <div class="description row">
-                                <div class="text-caption text-grey">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                                <div class="text-caption text-white ">
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                                 </div>
                             </div>                    
                         </q-card-section>
@@ -76,25 +92,28 @@
 
             <!-- Cold Drinks Pnel -->
             <q-tab-panel name="cold">
-                <div class="text-h6">cold</div>
-                <q-card class="my-card">
+                <q-card class="my-card q-mb-md bg-dark" v-for="n in 4" :key="n">
                     <q-card-section horizontal>
                         <q-img
                         class="col-4"
-                        src="https://cdn.quasar.dev/img/parallax1.jpg"
+                        :src="'https://source.unsplash.com/random/160x120/?fast-food-'+n"
                         />
 
-                        <q-card-section class="q-pa-md title" >
-                            <div class="type row">
-                                <div class="text-overline">Overline</div>
-                            </div>
-                            <div class="title-price row justify-between">
-                                <div class="text-h5 q-mt-sm q-mb-xs">Title</div>
-                                <div class="text-h5 q-mt-sm q-mb-xs">$10.00</div>
-                            </div>
+                        <q-card-section class="q-pa-md title col-8" >
+                            <q-item class="title-price row justify-between items-top q-pa-none"
+                            clickable
+                            flat
+                            tag="a"
+                            to="/store/resturant/title"
+                            >
+                                <span class="text-primary text-h6 ">
+                                    Title
+                                </span>
+                                <span class="text-h6 text-white">$10.00</span>
+                            </q-item>
                             <div class="description row">
-                                <div class="text-caption text-grey">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                                <div class="text-caption text-white ">
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                                 </div>
                             </div>                    
                         </q-card-section>
@@ -108,7 +127,6 @@
 <script setup>
 import { ref } from "vue";
 const tab=ref('fastfood')
-const lorem= ref('Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.')
 </script>
 
 <style>
