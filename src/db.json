@@ -1,0 +1,53 @@
+{
+    "user": {
+        "uid1": {
+            "name": "saman sahraei",
+            "email": "saman@saman.com",
+            "role": "user"
+        },
+        "uid2": {
+            "name": "saman sahraei",
+            "email": "saman@saman.com",
+            "role": "admin"
+        }
+    },
+    "store": {
+        "uid1": {
+            "title": "store1",
+            "description": "store1 description",
+            "address": "store1 address",
+            "location": "location",
+            "products": {
+                "pid1": {
+                    "title": "product1",
+                    "description": "product1 description",
+                    "price": 1000,
+                    "image": "image",
+                    "category": "category"
+                },
+                "pid2": {
+                    "title": "product1",
+                    "description": "product1 description",
+                    "price": 1000,
+                    "image": "image",
+                    "category": "category"
+                }
+            }
+        },
+        "uid2": {
+            "title": "store1",
+            "description": "store1 description",
+            "address": "store1 address",
+            "location": "location",
+            "products": {
+                "pid1": {
+                    "title": "product1",
+                    "description": "product1 description",
+                    "price": 1000,
+                    "image": "image",
+                    "category": "category"
+                }
+            }
+        }
+    }
+}

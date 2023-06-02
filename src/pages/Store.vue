@@ -9,7 +9,7 @@
         </q-banner>
         <!-- Tabs -->
         <q-tabs        
-        v-model="tab"
+        v-model="category"
         inline-label
         dense
         
@@ -26,7 +26,7 @@
 
 
         <!-- Panles -->
-        <q-tab-panels v-model="tab" animated class="shadow-5">
+        <q-tab-panels v-model="category" animated class="shadow-5">
 
             <!-- Fast Food Pnel -->
             <q-tab-panel name="fastfood">
@@ -126,7 +126,7 @@
 
 <script setup>
 import { ref } from "vue";
-const tab=ref('fastfood')
+const category=ref('fastfood')
 </script>
 
 <style>
