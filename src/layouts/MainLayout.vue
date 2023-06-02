@@ -18,25 +18,11 @@
           to="/"
           class="text-white">
             Resturant - Café
-          </q-item>
-          
+          </q-item>          
         </q-toolbar-title>
 
         <div>
-          <q-btn 
-          v-if="storeFirebase.user"
-          @click="storeFirebase.logOut()"
-          flat
-          >
-            Logout
-          </q-btn>
-          <q-btn
-          v-else 
-          @click="loginToggle= !loginToggle"
-          flat
-          >
-            Login
-          </q-btn>
+         <UserButtons />
         </div>
       </q-toolbar>
     </q-header>
@@ -80,10 +66,9 @@
 
 <script setup>
 import { ref } from 'vue'
-import EssentialLink from 'components/EssentialLink.vue'
+import EssentialLink from '../components/main/EssentialLink.vue'
+import UserButtons from '../components/main/UserButtons.vue'
 import Login from '../components/modals/Login.vue'
-import { useFirebaseStore } from 'stores/firebase'
-const storeFirebase= useFirebaseStore();
 const essentialLinks = [
   {
     title: 'Register',
