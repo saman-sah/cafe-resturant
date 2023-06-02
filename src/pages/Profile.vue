@@ -96,10 +96,10 @@
                         </q-list>
                     </q-card-section>                    
                 </q-card>
-                    <q-item c
-                    lickable 
-                    tag="a" 
-                    to="/account/add-product" 
+                    <q-item 
+                    @click="addProductModal= true"
+                    clickable 
+                    tag="a"
                     v-ripple
                     class="bg-primary rounded-borders q-my-md text-center text-subtitle2"
                     >
@@ -109,14 +109,18 @@
                     </q-item>
             </q-tab-panel>
         </q-tab-panels>
-    </q-card>   
+    </q-card> 
+    <q-dialog v-model="addProductModal" full-width>
+      <AddProduct />
+    </q-dialog>  
   </q-page>
 </template>
 
 <script setup>
 import { ref } from "vue";
-
+import AddProduct from '../components/admin/AddProduct.vue'
 const tab=ref('userProfile')
+const addProductModal= ref(false)
 </script>
 
 <style>

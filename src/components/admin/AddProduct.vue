@@ -1,5 +1,5 @@
-<template>
-    <q-page class="profile q-pa-md">
+<template> 
+    <q-page class="profile q-pa-md"  style="width: 700px; max-width: 96vw;">
         <q-form
         @submit="onSubmit"
         @reset="onReset"        
