@@ -1,5 +1,6 @@
 <template>
     <div class="q-pa-md q-my-lg">
+        <q-btn @click="storeFirebase.addProduct()">Add product</q-btn>
         <div class="q-gutter-y-md" >
             <form @submit.prevent="registerValidationForm" 
             class="bg-dark q-pa-lg column rounded-borders">
@@ -77,7 +78,8 @@
 
 <script setup>
 import { reactive } from "vue";
-
+import { useFirebaseStore } from 'stores/firebase'
+const storeFirebase= useFirebaseStore();
 const formData= reactive({
     role: 'admin',
     name:'',
@@ -91,6 +93,9 @@ const formData= reactive({
         address:'',
     },
 })
+function registerValidationForm() {
+    storeFirebase.register(formData)
+}
 </script>
 
 <style>
