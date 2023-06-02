@@ -2,10 +2,17 @@
   <router-view />
 </template>
 
-<script>
-import { defineComponent } from 'vue'
+<script setup>
+  import { onBeforeMount } from 'vue';
+  import { useFirebaseStore } from 'stores/firebase'
+  const storeFirebase= useFirebaseStore();
+  // const bar= ref(null)
+  onBeforeMount(()=> {
+    storeFirebase.handleAuthStateChange();    
+  })
+  // onMounted(() => {
+  //   storeFirebase.setBar(bar.value);
+  // })
 
-export default defineComponent({
-  name: 'App'
-})
 </script>
+

@@ -24,6 +24,14 @@
 
         <div>
           <q-btn 
+          v-if="storeFirebase.user"
+          @click="storeFirebase.logOut()"
+          flat
+          >
+            Logout
+          </q-btn>
+          <q-btn
+          v-else 
           @click="loginToggle= !loginToggle"
           flat
           >
@@ -70,12 +78,13 @@
   </q-layout>
 </template>
 
-<script>
-import { defineComponent, ref } from 'vue'
+<script setup>
+import { ref } from 'vue'
 import EssentialLink from 'components/EssentialLink.vue'
 import Login from '../components/modals/Login.vue'
-
-const linksList = [
+import { useFirebaseStore } from 'stores/firebase'
+const storeFirebase= useFirebaseStore();
+const essentialLinks = [
   {
     title: 'Register',
     caption: 'Admin',
@@ -89,26 +98,10 @@ const linksList = [
     link: '#'
   }
 ]
-
-export default defineComponent({
-  name: 'MainLayout',
-
-  components: {
-    EssentialLink,
-    Login
-  },
-
-  setup () {
-    const leftDrawerOpen = ref(false)
-    const loginToggle= ref(false)
-    return {
-      essentialLinks: linksList,
-      leftDrawerOpen,
-      loginToggle,
-      toggleLeftDrawer () {
+  const leftDrawerOpen = ref(false)
+  const loginToggle= ref(false)
+  function toggleLeftDrawer () {
         leftDrawerOpen.value = !leftDrawerOpen.value
-      }
-    }
   }
-})
+
 </script>

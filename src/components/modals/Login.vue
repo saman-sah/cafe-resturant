@@ -91,21 +91,22 @@
 
 <script setup>
 import { reactive, ref } from "vue";
-// import { useFirebaseStore } from 'stores/firebase'
-// const storeFirebase= useFirebaseStore();
+import { useFirebaseStore } from 'stores/firebase'
+const storeFirebase= useFirebaseStore();
 const tab=ref('login')
 const formData= reactive({
     name: '',
     email: '',
-    password:''
+    password:'',
+    role: 'user'
 })
-// const isPwd= ref(true)
-// function loginValidationForm() {
-//     storeFirebase.login(formData)
-// }
-// function registerValidationForm() {
-//     storeFirebase.register(formData)
-// }
+const isPwd= ref(true)
+function loginValidationForm() {
+    storeFirebase.login(formData)
+}
+function registerValidationForm() {
+    storeFirebase.register(formData)
+}
 </script>
 
 <style>
