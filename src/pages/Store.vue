@@ -125,8 +125,15 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { useFirebaseStore } from 'stores/firebase'
+import { onBeforeMount, ref } from "vue";
+const storeFirebase= useFirebaseStore();
 const category=ref('fastfood')
+onBeforeMount(() => {
+    const storeId=ref(storeFirebase.route.params.id)
+    console.log('storeId.value');
+    console.log(storeId.value);
+})
 </script>
 
 <style>
