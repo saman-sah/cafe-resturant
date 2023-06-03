@@ -22,16 +22,34 @@ export const useFirebaseStore = defineStore('firebase', {
         route: useRoute(),
         router: useRouter(),
         userInfo: null,
-        items: null,
+        stores: null,
         bar: null,
         loading: true,
     }),
     getters: {
+        getStores: (state) => {
+            let arrayStores=[]
+            if(state.stores){
+                Object.keys(state.stores).forEach((key) => {
+                    let item = state.stores[key];
+                    let slug = item.title.toLowerCase().replace(/[^\w-]+/g, "-");
+                    item.slug= slug
+                    arrayStores.push(item);
+                });
+            }            
+            return arrayStores
+        }
     },
     actions: {  
+        getStoresFirebase() {
+            onValue(ref(db, 'stores'), (snapshot) => {
+                const data = snapshot.val();
+                this.stores= data                
+            });
+        },
         addProduct() {
             let userId= auth.currentUser.uid 
-            set(push(ref(db, 'stores/'+ userId + '/products')), {
+            set(push(ref(db, 'products/'+ userId )), {
                 title: "product1",
                 description: "product1 description",
                 price: 1000,
@@ -44,21 +62,17 @@ export const useFirebaseStore = defineStore('firebase', {
             auth.onAuthStateChanged(user=> {
                 if(user) {
                     // this.startBar();
-                    let userId= auth.currentUser.uid 
-                    // let currentPath=this.route.path
+                    let userId= auth.currentUser.uid
                     this.user= user;
-                    console.log('user');
-                    console.log(this.user);
                     // if(currentPath.includes('login') ) {
                     //     this.router.push('/')  
                     // } 
                     onValue(ref(db, 'users/'+ userId), (snapshot) => {
                         const data = snapshot.val();
-                        this.items=data.items
-                        this.getSortedItems;
                         this.userInfo= {
                             name: data.name,
-                            email: data.email
+                            email: data.email,
+                            role: data.role
                         }
                     });
                     // this.stopBar(); 
@@ -118,6 +132,7 @@ export const useFirebaseStore = defineStore('firebase', {
                         image: userData.store.image,
                         location: userData.store.location,
                         title: userData.store.title,
+                        slug: userData.store.title.toLowerCase().replace(/[^\w-]+/g, "-"),
                         products: {}
                     })
                 }

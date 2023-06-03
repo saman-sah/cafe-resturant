@@ -8,7 +8,8 @@
   const storeFirebase= useFirebaseStore();
   // const bar= ref(null)
   onBeforeMount(()=> {
-    storeFirebase.handleAuthStateChange();    
+    storeFirebase.handleAuthStateChange(); 
+    storeFirebase.getStoresFirebase(); 
   })
   // onMounted(() => {
   //   storeFirebase.setBar(bar.value);

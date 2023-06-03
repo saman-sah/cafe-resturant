@@ -1,9 +1,9 @@
 <template>
   <q-page class="flex home">
-    <div class="row">
-      
-      <div v-for="n in 6"
-      :key="n"
+    
+    <div class="row" v-if="storeFirebase.stores">
+      <div v-for="(store, key) in storeFirebase.stores"
+      :key="key"      
       class="col-6 item q-pa-md">
         <q-card class="my-card bg-dark card-item-store" flat bordered >
           <q-img src="https://source.unsplash.com/random/550x366/?fastfood" />
@@ -24,8 +24,8 @@
                 <q-item
                 clickable
                 tag="a"
-                to="/store/resturant">
-                  Resturant
+                :to="'/store/'+ store.slug + '/' + key">
+                  {{ store.title }}
                 </q-item>
               </div>
             </div>
@@ -33,7 +33,7 @@
 
           <q-card-section class="q-pt-none">
             <div class="text-caption text-white">
-              Small plates, salads & sandwiches in an intimate setting.
+              {{ store.description }}
             </div>
           </q-card-section>
 
@@ -68,5 +68,7 @@
 <script setup>
 import { ref } from "vue";
 import locationStore from '../components/modals/Location.vue'
+import { useFirebaseStore } from 'stores/firebase'
+const storeFirebase= useFirebaseStore();
 const location= ref(false)
 </script>
