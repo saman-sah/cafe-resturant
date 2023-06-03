@@ -23,22 +23,13 @@ export const useFirebaseStore = defineStore('firebase', {
         router: useRouter(),
         userInfo: null,
         stores: null,
+        products: null,
+        productsCount: null,
         bar: null,
         loading: true,
     }),
     getters: {
-        getStores: (state) => {
-            let arrayStores=[]
-            if(state.stores){
-                Object.keys(state.stores).forEach((key) => {
-                    let item = state.stores[key];
-                    let slug = item.title.toLowerCase().replace(/[^\w-]+/g, "-");
-                    item.slug= slug
-                    arrayStores.push(item);
-                });
-            }            
-            return arrayStores
-        }
+       
     },
     actions: {  
         getStoresFirebase() {
@@ -54,8 +45,18 @@ export const useFirebaseStore = defineStore('firebase', {
                 description: "product1 description",
                 price: 1000,
                 image: "image",
-                category: "category"
+                category: "category",
+                type: 'hot'
             })
+        },
+        getStoreProducts(storeId) {
+            onValue(ref(db, 'products/'+ storeId), (snapshot) => {
+                const data = snapshot.val();  
+                this.products=data;  
+                this.productsCount= Object.keys(this.products).length  
+                console.log('this.productsCount');     
+                console.log(this.productsCount);     
+            });
         },
         // Check User Logged In
         handleAuthStateChange() {

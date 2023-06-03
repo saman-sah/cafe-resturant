@@ -74,7 +74,7 @@ const essentialLinks = [
     title: 'Register',
     caption: 'Admin',
     icon: 'login',
-    link: 'account/register-admin'
+    link: '/account/register-admin'
   },
   {
     title: 'Gallery',
