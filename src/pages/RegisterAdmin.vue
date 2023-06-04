@@ -1,6 +1,5 @@
 <template>
     <div class="q-pa-md q-my-lg">
-        <q-btn @click="storeFirebase.addProduct()">Add product</q-btn>
         <div class="q-gutter-y-md" >
             <form @submit.prevent="registerValidationForm" 
             class="bg-dark q-pa-lg column rounded-borders">

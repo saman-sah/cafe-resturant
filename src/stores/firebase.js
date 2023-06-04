@@ -38,15 +38,23 @@ export const useFirebaseStore = defineStore('firebase', {
                 this.stores= data                
             });
         },
-        addProduct() {
+        addRecipe() {
+            let userId= auth.currentUser.uid 
+            set(push(ref(db, 'products/'+ userId+ '/-NWzxxhVyFv1awcD9kb7/recipes' )),  
+                ['fastfood', 'cold', 'hot']
+            )
+        },
+        addProduct(formData) {
+            console.log('Actionsubmit form');
+    console.log(formData);
             let userId= auth.currentUser.uid 
             set(push(ref(db, 'products/'+ userId )), {
-                title: "product1",
-                description: "product1 description",
-                price: 1000,
-                image: "image",
-                category: "category",
-                type: 'hot'
+                title: formData.title,
+                description: formData.description,
+                price: formData.price,
+                image: formData.imgUrl.name,
+                category: formData.category,
+                recipes: formData.recipes
             })
         },
         getStoreProducts(storeId) {
@@ -162,7 +170,7 @@ export const useFirebaseStore = defineStore('firebase', {
                 }
                 return
             })
-            this.stopBar(); 
+            // this.stopBar(); 
             
         },
 
