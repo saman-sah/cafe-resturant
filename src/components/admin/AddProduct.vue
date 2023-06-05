@@ -1,20 +1,21 @@
 <template> 
     <div class="profile q-pa-md"  style="width: 700px; max-width: 96vw;">
         <q-form
-        @submit.prevent="onSubmit"       
+        @submit.prevent="validationAddProduct"      
+        @reset="onReset" 
         class="bg-dark q-pa-lg column rounded-borders"
         >
         <q-input
             outlined    
-            dark     
+            dark
             v-model="formData.title"
             label="Title"
             lazy-rules
             :rules="[ val => val && val.length > 0 || 'Please type title for product']"
         />
         <q-input
-            outlined    
-            dark     
+            outlined
+            dark
             v-model="formData.description"
             label="Description"
             lazy-rules
@@ -25,16 +26,25 @@
             dark 
             outlined            
             type="number"
-            v-model="formData.price"
+            v-model.number="formData.price"
             label="Price"
             lazy-rules
             :rules="[
-            val => val !== null && val !== '' || 'Please enter price',
-            val => val > 0 && val < 100 || 'Please type a real price'
+                val => val != null && val != '' || 'Please enter price',
+                val => val > 0 && val < 2000000 || 'Please type a real price'
             ]"
         />
 
-        <q-file outlined v-model="formData.imgUrl" dark>
+        <q-file         
+        outlined
+        v-model="formData.imgUrl"
+        dark
+        lazy-rules
+        :rules="[
+            val => val.name != null || 'Please attach your image',
+            val => val.size < 250000 || 'Please select image less than 250KB',
+        ]"
+        >
             <template v-slot:prepend>
                 <q-icon name="attach_file" />
             </template>
@@ -44,7 +54,10 @@
         v-model="formData.category" 
         :options="typeOptions" 
         label="Category" 
-        dark>
+        dark
+        lazy-rules
+        :rules="[ val => val && val.length > 0 || 'Select Product Category']"
+        >
             <template v-slot:append>
             <q-icon name="checklist_rtl"  />
             </template>
@@ -119,12 +132,20 @@ const formData=reactive({
 })
 const typeOptions=ref(['fastfood', 'cold', 'hot'])
 const newRecipe=ref('')
-function onSubmit() {    
+function validationAddProduct() {    
     storeFirebase.addProduct(formData)
 }
 function addRecipe() {
     formData.recipes.push(newRecipe.value);
     newRecipe.value=''
+}
+function onReset() {
+    formData.title= ''
+    formData.description= ''
+    formData.price= Number
+    formData.imgUrl= {}
+    formData.recipes= []
+    formData.category= ''
 }
 </script>
 
