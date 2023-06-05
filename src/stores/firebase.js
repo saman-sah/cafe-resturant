@@ -22,6 +22,7 @@ export const useFirebaseStore = defineStore('firebase', {
         route: useRoute(),
         router: useRouter(),
         userInfo: null,
+        storeInfo: null,
         stores: null,
         products: null,
         productsCount: null,
@@ -45,8 +46,6 @@ export const useFirebaseStore = defineStore('firebase', {
             )
         },
         addProduct(formData) {
-            console.log('Actionsubmit form');
-    console.log(formData);
             let userId= auth.currentUser.uid 
             set(push(ref(db, 'products/'+ userId )), {
                 title: formData.title,
@@ -83,7 +82,16 @@ export const useFirebaseStore = defineStore('firebase', {
                             email: data.email,
                             role: data.role
                         }
-                    });
+                        if(data.role == 'admin') {
+                            onValue(ref(db, 'stores/'+ userId), (snapshot) => {
+                                const data = snapshot.val();
+                                this.storeInfo= data;
+                                this.storeInfo.storeId= userId;
+                                console.log('this.storeInfo');
+                                console.log(this.storeInfo);
+                            })
+                        }
+                    })
                     // this.stopBar(); 
                 }else {                       
                     this.user= null;
