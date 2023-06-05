@@ -93,9 +93,12 @@ export const useFirebaseStore = defineStore('firebase', {
                         }
                     })
                     // this.stopBar(); 
-                }else {                       
+                }else {
+                    let currentPath=this.route.path                     
                     this.user= null;
-                    // this.router.replace('/login')  
+                    if(currentPath.includes('profile') ) {
+                        this.router.push('/')
+                    } 
                 }
             })
         },
@@ -187,6 +190,7 @@ export const useFirebaseStore = defineStore('firebase', {
             // this.startBar();
             signOut(auth).then(res=> {
                 this.user= null;
+                this.router.push('/')  
                 // Notify.create({
                 //     message: 'You are logged out',
                 //     color: 'secondary',

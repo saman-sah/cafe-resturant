@@ -55,10 +55,7 @@
 </template>
 
 <script setup>
-  import { ref } from 'vue'
   import UserButtons from '../components/main/UserButtons.vue'
   import { useFirebaseStore } from 'stores/firebase'
   const storeFirebase= useFirebaseStore();
-  const leftDrawerOpen = ref(false)
-
 </script>

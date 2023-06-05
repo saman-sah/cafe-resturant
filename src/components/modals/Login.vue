@@ -54,7 +54,9 @@
                             <q-btn 
                             color="primary" 
                             label="Login" 
-                            type="submit"/>
+                            type="submit"
+                            v-close-popup="submitForms"
+                            />
                             <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
 
                         </div>
@@ -97,7 +99,7 @@
                             </template>
                         </q-input>
                         <div class="row justify-end">
-                            <q-btn color="primary" label="Register" type="submit"/>
+                            <q-btn v-close-popup color="primary" label="Register" type="submit"/>
                         </div>
                     </form>
                 </q-tab-panel>
