@@ -6,9 +6,9 @@
           flat
           dense
           round
-          icon="menu"
+          icon="arrow_back"
           aria-label="Menu"
-          @click="toggleLeftDrawer"
+          @click="storeFirebase.router.go(-1)"
         />
 
         <q-toolbar-title>
@@ -27,33 +27,26 @@
       </q-toolbar>
     </q-header>
 
-    <q-footer class="bg-dark text-primary" elevated>
-      <q-toolbar>
-        <q-toolbar-title class="text-caption">© 2022 stocksoftheday.</q-toolbar-title>
-      </q-toolbar>
+    <q-footer class="bg-dark text-primary row justify-between" elevated>
+      <q-item>
+        <q-item-section class="text-overline">
+          © 2022 stocksoftheday.
+        </q-item-section>
+      </q-item>
+      <q-item
+      v-if="!storeFirebase.user"
+      clickable
+      tag="a"
+      to='/account/register-admin'
+      >
+        <q-item-section avatar class="q-pa-none">
+          <q-item-label>
+            <q-icon name="login" class="q-mr-xs" />
+            Register Admin
+          </q-item-label>
+        </q-item-section>
+      </q-item>
     </q-footer>
-
-    <q-drawer
-      v-model="leftDrawerOpen"
-      show-if-above
-      bordered
-    >
-      <q-list>
-        <q-item-label
-          header
-        >
-          Essential Links
-        </q-item-label>
-
-        <EssentialLink
-          v-for="link in essentialLinks"
-          :key="link.title"
-          v-bind="link"
-        />
-      </q-list>
-    </q-drawer>
-
-
 
     <q-page-container>
       <router-view />
@@ -62,27 +55,10 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import EssentialLink from '../components/main/EssentialLink.vue'
-import UserButtons from '../components/main/UserButtons.vue'
-
-const essentialLinks = [
-  {
-    title: 'Register',
-    caption: 'Admin',
-    icon: 'login',
-    link: '/account/register-admin'
-  },
-  {
-    title: 'Gallery',
-    caption: '',
-    icon: 'view_comfy_alt',
-    link: '#'
-  }
-]
+  import { ref } from 'vue'
+  import UserButtons from '../components/main/UserButtons.vue'
+  import { useFirebaseStore } from 'stores/firebase'
+  const storeFirebase= useFirebaseStore();
   const leftDrawerOpen = ref(false)
-  function toggleLeftDrawer () {
-        leftDrawerOpen.value = !leftDrawerOpen.value
-  }
 
 </script>
