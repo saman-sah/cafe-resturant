@@ -4,22 +4,28 @@
     v-if="storeFirebase.user"  
     class="glossy"
     color="primary"
-    label="Account Settings"
+    label="Account"
     flat
     >
         <div class="row no-wrap q-pa-md bg-dark text-white">
             <div class="column">
-                <div class="text-h6 q-mb-md">
-                    Settings
+                <div class="text-subtitle2 text-center q-mb-md">
+                    {{ storeFirebase.userInfo.name }}
                 </div>
+                <q-separator inset dark />
                 <q-list>
                     <q-item clickable v-close-popup tag="a" to="/account/profile">
                         <q-item-section>
-                        <q-item-label>Profile</q-item-label>
+                            <q-item-label>Profile</q-item-label>
                         </q-item-section>
                     </q-item>
 
-                    <q-item clickable v-close-popup  tag="a" to="/store">
+                    <q-item v-if="storeFirebase.storeInfo" 
+                    clickable 
+                    v-close-popup  
+                    tag="a" 
+                    :to="'/store/'+ storeFirebase.storeInfo.slug + '/' + storeFirebase.storeInfo.storeId"
+                    >
                         <q-item-section>
                             <q-item-label>My Store</q-item-label>
                         </q-item-section>
@@ -28,13 +34,15 @@
                 </q-list>
             </div>
 
-            <q-separator vertical inset class="q-mx-lg" />
+            <q-separator vertical inset class="q-mx-sm" />
 
             <div class="column items-center">
                 <q-avatar size="72px">
                     <img src="https://cdn.quasar.dev/img/boy-avatar.png">
                 </q-avatar>
-                <div class="text-subtitle1 q-mt-md q-mb-xs">John Doe</div>
+                <div class="text-subtitle1 q-mt-md q-mb-xs">
+                    
+                </div>
                 <q-btn
                 @click="storeFirebase.logOut()"
                 color="primary"
