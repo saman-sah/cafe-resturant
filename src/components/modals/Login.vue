@@ -19,19 +19,28 @@
   
             <q-tab-panels v-model="tab" animated>
                 <q-tab-panel name="login">
-                    <form @submit.prevent="loginValidationForm" class="q-gutter-md">
+                    <form 
+                    @submit.prevent="loginValidationForm" 
+                    @reset="onReset"
+                    class="q-gutter-md"
+                    >
                         <q-input 
                         outlined 
                         v-model="formData.email" 
+                        type="email"
                         label="Email"  
                         class="q-my-md"
+                        lazy-rules
+                        :rules="[ val => val && val.length > 0 || 'Please type your email']"
                         />
                         <q-input 
                         :type="isPwd ? 'password' : 'text'"
                         outlined 
-                        v-model="formData.password" 
+                        v-model="formData.password"                         
                         label="Password"
                         class="q-mb-md"
+                        lazy-rules
+                        :rules="[ val => val && val.length > 0 || 'Please type your password']"
                         >
                             <template v-slot:append>
                                 <q-icon
@@ -46,6 +55,8 @@
                             color="primary" 
                             label="Login" 
                             type="submit"/>
+                            <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
+
                         </div>
                     </form>
                 </q-tab-panel>
@@ -56,12 +67,17 @@
                         outlined 
                         v-model="formData.name" 
                         label="Name"
+                        lazy-rules
+                        :rules="[ val => val && val.length > 0 || 'Please type your name']"
                         />
                         <q-input 
                         outlined 
                         v-model="formData.email" 
+                        type="email"
                         label="Email"  
                         class="q-my-md"
+                        lazy-rules
+                        :rules="[ val => val && val.length > 0 || 'Please type your email']"
                         />
                         <q-input 
                         :type="isPwd ? 'password' : 'text'"
@@ -69,6 +85,8 @@
                         v-model="formData.password" 
                         label="Password"
                         class="q-mb-md"
+                        lazy-rules
+                        :rules="[ val => val && val.length > 0 || 'Please type your password']"
                         >
                             <template v-slot:append>
                                 <q-icon
@@ -106,6 +124,11 @@ function loginValidationForm() {
 }
 function registerValidationForm() {
     storeFirebase.register(formData)
+}
+function onReset() {
+    formData.name= ''
+    formData.email= ''
+    formData.password= ''
 }
 </script>
 

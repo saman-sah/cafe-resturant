@@ -8,6 +8,8 @@
                 v-model="formData.name" 
                 label="Name"
                 dark
+                lazy-rules
+                :rules="[ val => val && val.length > 0 || 'Please type your name']"
                 />
                 <q-input 
                 outlined 
@@ -15,6 +17,8 @@
                 label="Email"  
                 class="q-my-md"
                 dark
+                lazy-rules
+                :rules="[ val => val && val.length > 0 || 'Please type your email']"
                 />
                 <q-input 
                 outlined 
@@ -22,6 +26,8 @@
                 label="Store Title"  
                 class="q-my-md"
                 dark
+                lazy-rules
+                :rules="[ val => val && val.length > 0 || 'Please type your store title']"
                 />
                 <q-input 
                 outlined 
@@ -29,6 +35,8 @@
                 label="Store Description"  
                 class="q-my-md"
                 dark
+                lazy-rules
+                :rules="[ val => val && val.length > 0 || 'Please type your store description']"
                 />
                 <q-input 
                 outlined 
@@ -36,6 +44,8 @@
                 label="Store Location"  
                 class="q-my-md"
                 dark
+                lazy-rules
+                :rules="[ val => val && val.length > 0 || 'Please type your store location']"
                 />
                 <q-input 
                 outlined 
@@ -43,6 +53,8 @@
                 label="Store Address"  
                 class="q-my-md"
                 dark
+                lazy-rules
+                :rules="[ val => val && val.length > 0 || 'Please type your store address']"
                 />
                 <q-input 
                 outlined 
@@ -50,6 +62,10 @@
                 label="Store Image"  
                 class="q-my-md"
                 dark
+                :rules="[
+                    val => val.name != null || 'Please attach your image',
+                    val => val.size < 250000 || 'Please select image less than 250KB',
+                ]"
                 />
                 <q-input 
                 :type="isPwd ? 'password' : 'text'"
@@ -58,6 +74,10 @@
                 label="Password"
                 dark
                 class="q-mb-md"
+                :rules="[
+                    val => val != null || 'Please type your password',
+                    val => val.length > 6 || 'Select stronger password',
+                ]"
                 >
                     <template v-slot:append>
                         <q-icon
@@ -76,9 +96,10 @@
 </template>
 
 <script setup>
-import { reactive } from "vue";
+import { reactive, ref } from "vue";
 import { useFirebaseStore } from 'stores/firebase'
 const storeFirebase= useFirebaseStore();
+const isPwd= ref(true)
 const formData= reactive({
     role: 'admin',
     name:'',
