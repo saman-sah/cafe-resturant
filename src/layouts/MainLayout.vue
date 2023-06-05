@@ -29,7 +29,7 @@
 
     <q-footer class="bg-dark text-primary" elevated>
       <q-toolbar>
-        <q-toolbar-title>Footer</q-toolbar-title>
+        <q-toolbar-title class="text-caption">© 2022 stocksoftheday.</q-toolbar-title>
       </q-toolbar>
     </q-footer>
 
@@ -53,10 +53,7 @@
       </q-list>
     </q-drawer>
 
-    <!-- Login Modal Component -->
-    <q-dialog v-model="loginToggle">
-      <Login />
-    </q-dialog>
+
 
     <q-page-container>
       <router-view />
@@ -68,7 +65,7 @@
 import { ref } from 'vue'
 import EssentialLink from '../components/main/EssentialLink.vue'
 import UserButtons from '../components/main/UserButtons.vue'
-import Login from '../components/modals/Login.vue'
+
 const essentialLinks = [
   {
     title: 'Register',
@@ -84,7 +81,6 @@ const essentialLinks = [
   }
 ]
   const leftDrawerOpen = ref(false)
-  const loginToggle= ref(false)
   function toggleLeftDrawer () {
         leftDrawerOpen.value = !leftDrawerOpen.value
   }

@@ -55,11 +55,19 @@
     >
         Login
     </q-btn>
+    
+    <!-- Login Modal Component -->
+    <q-dialog v-model="loginToggle">
+        <Login />
+    </q-dialog>
 </template>
 
 <script setup>
-import { useFirebaseStore } from 'stores/firebase'
-const storeFirebase= useFirebaseStore();
+    import { ref } from 'vue';
+    import Login from '../modals/Login.vue'
+    import { useFirebaseStore } from 'stores/firebase'
+    const storeFirebase= useFirebaseStore();
+    const loginToggle= ref(false)
 </script>
 
 <style>
