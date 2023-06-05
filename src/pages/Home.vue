@@ -1,10 +1,10 @@
 <template>
-  <q-page class="flex home">
+  <q-page class="home">
     
     <div class="row" v-if="storeFirebase.stores">
       <div v-for="(store, key) in storeFirebase.stores"
       :key="key"      
-      class="col-6 item q-pa-md">
+      class="col-6 item q-pa-sm q-mb-sm">
         <q-card class="my-card bg-dark card-item-store" flat bordered >
           <q-img src="https://source.unsplash.com/random/550x366/?fastfood" />
 
