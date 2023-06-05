@@ -1,7 +1,7 @@
 <template>
     <q-page class="q-pa-md store" v-if="storeFirebase.products">
         <q-banner inline-actions rounded class="text-dark bg-primary q-mb-md">
-            <strong>Title</strong>
+            <strong>{{ storeFirebase.storeInfo.title }}</strong>
             <p> You have lost connection to the internet. This app is offline.</p>
             <template v-slot:action>
                 <span v-if="storeFirebase.productsCount">{{ storeFirebase.productsCount }}</span>
