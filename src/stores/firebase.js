@@ -2,7 +2,6 @@ import { defineStore } from 'pinia';
 import { useRouter } from "vue-router";
 import { useRoute } from 'vue-router'
 // import { Notify } from 'quasar'
-import _ from 'lodash'
 import { 
     auth, 
     db,

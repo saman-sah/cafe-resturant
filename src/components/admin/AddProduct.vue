@@ -69,15 +69,19 @@
             v-for="(recipe, index) in formData.recipes"
             :key="index"
             class="bg-dark rounded-borders row justify-between q-mb-sm">
-                <div class="icon-title row">
-                    <q-item-section avatar>
-                        <q-icon color="primary" name="check" />
-                    </q-item-section>
-                    <q-item-section>
-                        {{ recipe }}
-                    </q-item-section>                    
-                </div>
-                
+                <q-item-section avatar>
+                    <q-icon color="primary" name="check" />
+                </q-item-section>
+                <q-item-section>
+                    {{ recipe }}
+                </q-item-section>
+                <q-item-section avatar>
+                    <q-btn flat
+                    @click="removeRecipe(recipe)"
+                    >
+                        <q-icon color="primary" name="close" />
+                    </q-btn>
+                </q-item-section>                
             </q-item>
 
             <q-item class="q-pa-none">
@@ -126,7 +130,7 @@ const formData=reactive({
     description:'',
     price: Number,
     imgUrl: '',
-    recipes: [     
+    recipes: [  
     ],
     category: ''
 })
@@ -136,8 +140,19 @@ function validationAddProduct() {
     storeFirebase.addProduct(formData)
 }
 function addRecipe() {
-    formData.recipes.push(newRecipe.value);
-    newRecipe.value=''
+    const indexToRemove = formData.recipes.indexOf(newRecipe.value);
+    if (indexToRemove !== -1) {
+        console.log(newRecipe.value+ ' already added');
+    }else {
+        formData.recipes.push(newRecipe.value);
+    }
+    newRecipe.value=''    
+}
+function removeRecipe(recipeTitle) {
+    const indexToRemove = formData.recipes.indexOf(recipeTitle);
+    if (indexToRemove !== -1) {
+        formData.recipes.splice(indexToRemove, 1);
+    }
 }
 function onReset() {
     formData.title= ''
