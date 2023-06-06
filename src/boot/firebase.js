@@ -53,15 +53,15 @@ export {
     set,
     push,
     update,
-    remove
-    // storage,
+    remove,
+    storage,
+    storageRef,
+    uploadBytes,
+    getDownloadURL,
     // off,
     // get,
     // child,
     // onChildAdded,
     // onChildChanged,
     
-    // storageRef,
-    // uploadBytes,
-    // getDownloadURL,
 }
