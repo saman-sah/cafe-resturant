@@ -55,7 +55,7 @@
                             color="primary" 
                             label="Login" 
                             type="submit"
-                            v-close-popup="submitForms"
+                            v-close-popup
                             />
                             <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
 
