@@ -3,7 +3,12 @@ import { useRouter } from "vue-router";
 import { useRoute } from 'vue-router'
 import { Notify } from 'quasar'
 import { 
+    // Auth Firebase
     auth, 
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    signOut,
+    // Database Firebase
     db,
     ref,
     set,
@@ -11,9 +16,11 @@ import {
     onValue,
     update,
     remove,
-    createUserWithEmailAndPassword,
-    signInWithEmailAndPassword,
-    signOut,
+    // storage Firebase
+    storage,
+    storageRef,
+    uploadBytes,
+    getDownloadURL,
 } from '../boot/firebase'
 export const useFirebaseStore = defineStore('firebase', {
     state: () => ({
@@ -21,7 +28,15 @@ export const useFirebaseStore = defineStore('firebase', {
         route: useRoute(),
         router: useRouter(),
         userInfo: null,
-        storeInfo: null,
+        storeInfo: {
+            address: "",
+            description: "",
+            image: "",
+            location: "",
+            slug: "",
+            storeId: "",
+            title: ""
+        },
         stores: null,
         products: null,
         productsCount: null,
@@ -63,11 +78,11 @@ export const useFirebaseStore = defineStore('firebase', {
         },
         getStoreProducts(storeId) {
             onValue(ref(db, 'products/'+ storeId), (snapshot) => {
-                const data = snapshot.val();  
-                this.products=data;  
-                this.productsCount= Object.keys(this.products).length  
-                console.log('this.productsCount');     
-                console.log(this.productsCount);     
+                const data = snapshot.val();
+                if(data) {                    
+                    this.products=data;  
+                    this.productsCount= Object.keys(this.products).length  
+                }
             });
         },
         // Check User Logged In
@@ -87,13 +102,16 @@ export const useFirebaseStore = defineStore('firebase', {
                             email: data.email,
                             role: data.role
                         }
-                        if(data.role == 'admin') {
+                        if(this.userInfo.role == 'admin') {
                             onValue(ref(db, 'stores/'+ userId), (snapshot) => {
-                                const data = snapshot.val();
-                                this.storeInfo= data;
+                                const data = snapshot.val();                                
+                                this.storeInfo.address = data.address
+                                this.storeInfo.description = data.description
+                                this.storeInfo.image = data.image
+                                this.storeInfo.location= data.location
+                                this.storeInfo.slug = data.slug
+                                this.storeInfo.title= data.title
                                 this.storeInfo.storeId= userId;
-                                console.log('this.storeInfo');
-                                console.log(this.storeInfo);
                             })
                         }
                     })
@@ -145,22 +163,58 @@ export const useFirebaseStore = defineStore('firebase', {
             createUserWithEmailAndPassword(auth, userData.email, userData.password)
             .then(response=> {
                 let userId= auth.currentUser.uid
+
+                // Create UserInfo in database
                 set(ref(db, 'users/'+ userId), {
                     name: userData.name,
                     email: userData.email,
                     role: userData.role
+                }).then(()=> {
+                    if(userData.store) {
+                        // Upload Store Image 
+                        uploadBytes(storageRef(storage, 'stores/'+ userId), userData.store.image)
+                        .then((snapshot) => {
+                            console.log('uploaded img');
+                            // Get Uploaded store Image
+                            getDownloadURL(storageRef(storage, 'stores/'+ userId))
+                            .then((url) => {
+                                // Create Store with uploaded image
+                                set(ref(db, 'stores/'+ userId), {
+                                    address: userData.store.address,
+                                    description: userData.store.description,
+                                    image: url,
+                                    location: userData.store.location,
+                                    title: userData.store.title,
+                                    slug: userData.store.title.toLowerCase().replace(/[^\w-]+/g, "-"),
+                                    products: {}
+                                })     
+                                this.router.push('/')                           
+                            })
+                            // Catch error for getting store image url
+                            .catch((error) => {
+                            switch (error.code) {
+                                case 'storage/object-not-found':
+                                // File doesn't exist
+                                break;
+                                case 'storage/unauthorized':
+                                // User doesn't have permission to access the object
+                                break;
+                                case 'storage/canceled':
+                                // User canceled the upload
+                                break;
+
+                                // ...
+
+                                case 'storage/unknown':
+                                // Unknown error occurred, inspect the server response
+                                break;
+                            }
+                            });                            
+                        })
+                    }
+                }).catch(err=> {
+                    console.log(err.message);
                 })
-                if(userData.store) {
-                    set(ref(db, 'stores/'+ userId), {
-                        address: userData.store.address,
-                        description: userData.store.description,
-                        image: userData.store.image,
-                        location: userData.store.location,
-                        title: userData.store.title,
-                        slug: userData.store.title.toLowerCase().replace(/[^\w-]+/g, "-"),
-                        products: {}
-                    })
-                }
                 
                 console.log('response register');
                 console.log(response);
@@ -195,12 +249,22 @@ export const useFirebaseStore = defineStore('firebase', {
             // this.startBar();
             signOut(auth).then(res=> {
                 this.user= null;
+                this.storeInfo= {
+                    address: "",
+                    description: "",
+                    image: "",
+                    location: "",
+                    slug: "",
+                    storeId: "",
+                    title: ""
+                }
                 this.router.push('/')  
                 Notify.create({
                     message: 'You are logged out',
                     color: 'secondary',
                     timeout: '1500'
                 });
+                console.log(this.storeInfo);
             })    
             // this.stopBar(); 
         },

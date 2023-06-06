@@ -56,7 +56,7 @@
                 lazy-rules
                 :rules="[ val => val && val.length > 0 || 'Please type your store address']"
                 />
-                <q-input 
+                <q-file
                 outlined 
                 v-model="formData.store.image" 
                 label="Store Image"  
@@ -66,7 +66,11 @@
                     val => val.name != null || 'Please attach your image',
                     val => val.size < 250000 || 'Please select image less than 250KB',
                 ]"
-                />
+                >
+                <template v-slot:prepend>
+                    <q-icon name="attach_file" />
+                </template>
+                </q-file>
                 <q-input 
                 :type="isPwd ? 'password' : 'text'"
                 outlined 
