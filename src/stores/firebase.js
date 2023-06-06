@@ -53,13 +53,8 @@ export const useFirebaseStore = defineStore('firebase', {
                 this.stores= data                
             });
         },
-        addRecipe() {
-            let userId= auth.currentUser.uid 
-            set(push(ref(db, 'products/'+ userId+ '/-NWzxxhVyFv1awcD9kb7/recipes' )),  
-                ['fastfood', 'cold', 'hot']
-            )
-        },
         addProduct(formData) {
+            this.startBar();
             let userId= auth.currentUser.uid 
             set(push(ref(db, 'products/'+ userId )), {
                 title: formData.title,
@@ -74,22 +69,25 @@ export const useFirebaseStore = defineStore('firebase', {
                     color: 'primary',
                     timeout: '1500'
                 })
+                this.stopBar(); 
             })
         },
         getStoreProducts(storeId) {
+            this.startBar();
             onValue(ref(db, 'products/'+ storeId), (snapshot) => {
                 const data = snapshot.val();
                 if(data) {                    
                     this.products=data;  
                     this.productsCount= Object.keys(this.products).length  
                 }
+                this.stopBar(); 
             });
         },
         // Check User Logged In
         handleAuthStateChange() {
             auth.onAuthStateChanged(user=> {
                 if(user) {
-                    // this.startBar();
+                    this.startBar();
                     let userId= auth.currentUser.uid
                     this.user= user;
                     // if(currentPath.includes('login') ) {
@@ -115,7 +113,7 @@ export const useFirebaseStore = defineStore('firebase', {
                             })
                         }
                     })
-                    // this.stopBar(); 
+                    this.stopBar(); 
                 }else {
                     let currentPath=this.route.path                     
                     this.user= null;
@@ -129,7 +127,7 @@ export const useFirebaseStore = defineStore('firebase', {
 
 
         login(userData) {
-            // this.startBar();
+            this.startBar();
             signInWithEmailAndPassword(auth, userData.email, userData.password)
             .then(response=> {
                 this.user= response.user;
@@ -138,6 +136,7 @@ export const useFirebaseStore = defineStore('firebase', {
                     color: 'primary',
                     timeout: '1500'
                 })
+                this.stopBar(); 
             })
             .catch(error=> {
                 switch (error.code) {
@@ -153,13 +152,12 @@ export const useFirebaseStore = defineStore('firebase', {
                 }
                 return
             })
-            // this.stopBar(); 
+            
         },
         
         //Register Firebase Auth
         register(userData) {
-            // this.startBar();
-            console.log(userData);
+            this.startBar();
             createUserWithEmailAndPassword(auth, userData.email, userData.password)
             .then(response=> {
                 let userId= auth.currentUser.uid
@@ -188,25 +186,19 @@ export const useFirebaseStore = defineStore('firebase', {
                                     slug: userData.store.title.toLowerCase().replace(/[^\w-]+/g, "-"),
                                     products: {}
                                 })     
-                                this.router.push('/')                           
+                                this.router.push('/')  
+                                this.stopBar();                          
                             })
                             // Catch error for getting store image url
                             .catch((error) => {
                             switch (error.code) {
                                 case 'storage/object-not-found':
-                                // File doesn't exist
                                 break;
                                 case 'storage/unauthorized':
-                                // User doesn't have permission to access the object
                                 break;
                                 case 'storage/canceled':
-                                // User canceled the upload
                                 break;
-
-                                // ...
-
                                 case 'storage/unknown':
-                                // Unknown error occurred, inspect the server response
                                 break;
                             }
                             });                            
@@ -214,10 +206,7 @@ export const useFirebaseStore = defineStore('firebase', {
                     }
                 }).catch(err=> {
                     console.log(err.message);
-                })
-                
-                console.log('response register');
-                console.log(response);
+                })                
             })
             .catch(error=> {
                 switch (error.code) {
@@ -235,18 +224,16 @@ export const useFirebaseStore = defineStore('firebase', {
                         break;
                     
                     default:
-                        alert("Something went Wrong")
-                        
+                        alert("Something went Wrong")                        
                 }
                 return
-            })
-            // this.stopBar(); 
+            })            
             
         },
 
         //Register Firebase Auth
         logOut() {
-            // this.startBar();
+            this.startBar();
             signOut(auth).then(res=> {
                 this.user= null;
                 this.storeInfo= {
@@ -264,30 +251,30 @@ export const useFirebaseStore = defineStore('firebase', {
                     color: 'secondary',
                     timeout: '1500'
                 });
-                console.log(this.storeInfo);
+                this.stopBar(); 
             })    
-            // this.stopBar(); 
+            
         },
         //End--------- Logout Firebase Auth
         
 
-        // setBar(bar) {
-        //     this.bar = bar;
-        // },
-        // startBar() {
-        //     if (this.bar) {
-        //       this.bar.start();
-        //     }
-        // },
-        // stopBar() {
-        //     if (this.bar) {
-        //       this.bar.stop();
-        //     }
-        // },
-        // step2(params) {
-        //     this.showModalStep2= true
-        //     this.dataStep1= params;
-        // }
+        setBar(bar) {
+            this.bar = bar;
+        },
+        startBar() {
+            if (this.bar) {
+              this.bar.start();
+            }
+        },
+        stopBar() {
+            if (this.bar) {
+              this.bar.stop();
+            }
+        },
+        step2(params) {
+            this.showModalStep2= true
+            this.dataStep1= params;
+        }
       
     },
 });
