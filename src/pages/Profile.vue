@@ -171,7 +171,7 @@
         </q-tab-panels>
     </q-card> 
     <q-dialog v-model="addProductModal" full-width>
-      <AddProduct />
+      <AddProduct @closePopup="addProductModal= false"/>
     </q-dialog>  
   </q-page>
 </template>
