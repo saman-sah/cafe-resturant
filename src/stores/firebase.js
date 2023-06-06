@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { useRouter } from "vue-router";
 import { useRoute } from 'vue-router'
-// import { Notify } from 'quasar'
+import { Notify } from 'quasar'
 import { 
     auth, 
     db,
@@ -53,6 +53,12 @@ export const useFirebaseStore = defineStore('firebase', {
                 image: formData.imgUrl.name,
                 category: formData.category,
                 recipes: formData.recipes
+            }).then (res=> {
+                Notify.create({
+                    message: 'Product Added',
+                    color: 'primary',
+                    timeout: '1500'
+                })
             })
         },
         getStoreProducts(storeId) {
@@ -109,11 +115,11 @@ export const useFirebaseStore = defineStore('firebase', {
             signInWithEmailAndPassword(auth, userData.email, userData.password)
             .then(response=> {
                 this.user= response.user;
-                // Notify.create({
-                //     message: 'You are logged in',
-                //     color: 'primary',
-                //     timeout: '1500'
-                // })
+                Notify.create({
+                    message: 'You are logged in',
+                    color: 'primary',
+                    timeout: '1500'
+                })
             })
             .catch(error=> {
                 switch (error.code) {
@@ -190,11 +196,11 @@ export const useFirebaseStore = defineStore('firebase', {
             signOut(auth).then(res=> {
                 this.user= null;
                 this.router.push('/')  
-                // Notify.create({
-                //     message: 'You are logged out',
-                //     color: 'secondary',
-                //     timeout: '1500'
-                // });
+                Notify.create({
+                    message: 'You are logged out',
+                    color: 'secondary',
+                    timeout: '1500'
+                });
             })    
             // this.stopBar(); 
         },

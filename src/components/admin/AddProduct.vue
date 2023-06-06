@@ -122,46 +122,52 @@
 </template>
 
 <script setup>
-import { reactive, ref } from "vue";
-import { useFirebaseStore } from 'stores/firebase'
-const storeFirebase= useFirebaseStore();
-const formData=reactive({
-    title:'',
-    description:'',
-    price: Number,
-    imgUrl: '',
-    recipes: [  
-    ],
-    category: ''
-})
-const typeOptions=ref(['fastfood', 'cold', 'hot'])
-const newRecipe=ref('')
-function validationAddProduct() {    
-    storeFirebase.addProduct(formData)
-}
-function addRecipe() {
-    const indexToRemove = formData.recipes.indexOf(newRecipe.value);
-    if (indexToRemove !== -1) {
-        console.log(newRecipe.value+ ' already added');
-    }else {
-        formData.recipes.push(newRecipe.value);
+    import { reactive, ref } from "vue";
+    import { useFirebaseStore } from 'stores/firebase'
+    import { defineEmits } from 'vue'
+
+    const emits = defineEmits([
+        'close-popup'
+    ])
+    const storeFirebase= useFirebaseStore();
+    const formData=reactive({
+        title:'',
+        description:'',
+        price: Number,
+        imgUrl: '',
+        recipes: [  
+        ],
+        category: ''
+    })
+    const typeOptions=ref(['fastfood', 'cold', 'hot'])
+    const newRecipe=ref('')
+    function validationAddProduct() {    
+        storeFirebase.addProduct(formData)
+        emits('close-popup')
     }
-    newRecipe.value=''    
-}
-function removeRecipe(recipeTitle) {
-    const indexToRemove = formData.recipes.indexOf(recipeTitle);
-    if (indexToRemove !== -1) {
-        formData.recipes.splice(indexToRemove, 1);
+    function addRecipe() {
+        const indexToRemove = formData.recipes.indexOf(newRecipe.value);
+        if (indexToRemove !== -1) {
+            console.log(newRecipe.value+ ' already added');
+        }else {
+            formData.recipes.push(newRecipe.value);
+        }
+        newRecipe.value=''    
     }
-}
-function onReset() {
-    formData.title= ''
-    formData.description= ''
-    formData.price= Number
-    formData.imgUrl= {}
-    formData.recipes= []
-    formData.category= ''
-}
+    function removeRecipe(recipeTitle) {
+        const indexToRemove = formData.recipes.indexOf(recipeTitle);
+        if (indexToRemove !== -1) {
+            formData.recipes.splice(indexToRemove, 1);
+        }
+    }
+    function onReset() {
+        formData.title= ''
+        formData.description= ''
+        formData.price= Number
+        formData.imgUrl= {}
+        formData.recipes= []
+        formData.category= ''
+    }
 </script>
 
 <style>
