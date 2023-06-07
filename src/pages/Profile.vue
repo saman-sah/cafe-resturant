@@ -121,11 +121,11 @@
                 <template v-if="storeFirebase.products">
                     <q-card class="my-card q-mb-md bg-dark" 
                     v-for="(product, key, index) in storeFirebase.products" 
-                    :key="key">                
+                    :key="key+index">                
                         <q-card-section horizontal>
                             <q-img
                             class="col-4"
-                            :src="'https://source.unsplash.com/random/160x120/?fast-food-'+index"
+                            :src="product.image"
                             />
 
                             <q-card-section class="q-pa-md title bg-dark col-8" >
