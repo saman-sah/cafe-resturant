@@ -19,10 +19,10 @@ import {
   push,
   update,
   remove,
+  onChildAdded,
   // off,
   // get,
   // child,
-  // onChildAdded,
   // onChildChanged
 } from "firebase/database";
 
@@ -58,10 +58,10 @@ export {
     storageRef,
     uploadBytes,
     getDownloadURL,
+    onChildAdded,
     // off,
     // get,
     // child,
-    // onChildAdded,
     // onChildChanged,
     
 }

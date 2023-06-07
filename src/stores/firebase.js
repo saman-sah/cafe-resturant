@@ -14,6 +14,7 @@ import {
     set,
     push,
     onValue,
+    onChildAdded,
     update,
     remove,
     // storage Firebase
@@ -38,7 +39,7 @@ export const useFirebaseStore = defineStore('firebase', {
             title: ""
         },
         stores: null,
-        products: null,
+        products: {},
         productsCount: null,
         bar: null,
         loading: true,
@@ -56,32 +57,70 @@ export const useFirebaseStore = defineStore('firebase', {
         addProduct(formData) {
             this.startBar();
             let userId= auth.currentUser.uid 
-            set(push(ref(db, 'products/'+ userId )), {
+            const productData = {
                 title: formData.title,
                 description: formData.description,
                 price: formData.price,
                 image: formData.imgUrl.name,
                 category: formData.category,
-                recipes: formData.recipes
-            }).then (res=> {
+                recipes: formData.recipes,
+              };
+            const dbProductRef = push(ref(db, 'products/' + userId));
+            set(dbProductRef, productData)
+            .then(() => {
+                const productID = dbProductRef.key;
+                // Upload Store Image 
+                uploadBytes(storageRef(storage, 'products/'+ userId +'/'+ productID), formData.imgUrl)
+                .then((snapshot) => {
+                    console.log('uploaded img');
+                    // Get Uploaded store Image
+                    getDownloadURL(storageRef(storage, 'products/'+ userId +'/'+ productID))
+                    .then((url) => {
+                        // Create Store with uploaded image
+                        update(ref(db, 'products/'+ userId +'/'+ productID), {
+                            image: url
+                        })
+                        this.stopBar();                          
+                    })
+                    // Catch error for getting store image url
+                    .catch((error) => {
+                    switch (error.code) {
+                        case 'storage/object-not-found':
+                        break;
+                        case 'storage/unauthorized':
+                        break;
+                        case 'storage/canceled':
+                        break;
+                        case 'storage/unknown':
+                        break;
+                    }
+                    });                            
+                })
+
                 Notify.create({
                     message: 'Product Added',
                     color: 'primary',
                     timeout: '1500'
-                })
-                this.stopBar(); 
+                });
+
+                // ...
             })
+            .catch((error) => {
+                console.error("Error adding object: ", error);
+            });
         },
         getStoreProducts(storeId) {
             this.startBar();
-            onValue(ref(db, 'products/'+ storeId), (snapshot) => {
-                const data = snapshot.val();
-                if(data) {                    
-                    this.products=data;  
-                    this.productsCount= Object.keys(this.products).length  
-                }
-                this.stopBar(); 
-            });
+            onChildAdded(ref(db, 'products/'+ storeId), (snapshot) => {
+                const product = snapshot.val();
+                const productKey = snapshot.key;
+                    if(product) {                    
+                        this.products[productKey]=product;  
+                        this.productsCount++ 
+                    }
+                    this.stopBar();
+              });
+              
         },
         // Check User Logged In
         handleAuthStateChange() {
