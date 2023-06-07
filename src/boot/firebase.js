@@ -10,6 +10,7 @@ import {
   ref as storageRef,
   uploadBytes,
   getDownloadURL,
+  deleteObject
 } from "firebase/storage";
 import { 
   getDatabase, 
@@ -20,10 +21,10 @@ import {
   update,
   remove,
   onChildAdded,
+  onChildChanged,
   // off,
-  // get,
-  // child,
-  // onChildChanged
+  get,
+  child,
 } from "firebase/database";
 
 
@@ -59,9 +60,10 @@ export {
     uploadBytes,
     getDownloadURL,
     onChildAdded,
+    onChildChanged,
     // off,
-    // get,
-    // child,
-    // onChildChanged,
+    get,
+    child,
+    deleteObject
     
 }

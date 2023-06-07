@@ -148,10 +148,17 @@
                                     </div>
                                     <div class="btn-recipe">
                                         <q-btn 
-                                        color="secondary" 
-                                        glossy 
-                                        label="Recipe"
-                                        @click="showRecipes(product.recipes)"/>
+                                        padding="xs"
+                                        color="primary" 
+                                        icon="edit" 
+                                        />
+                                        <q-btn
+                                        padding="xs"
+                                        color="secondary"
+                                        icon="delete"
+                                        class="q-ml-md"
+                                        @click="storeFirebase.deleteProduct(key, product.title)"
+                                        />
                                     </div>
                                 </q-item>
                             </q-card-section>
@@ -159,17 +166,17 @@
                     </q-card>
                 </template>
                 
-                    <q-item 
-                    @click="addProductModal= true"
-                    clickable 
-                    tag="a"
-                    v-ripple
-                    class="bg-primary rounded-borders q-my-md text-center text-subtitle2"
-                    >
-                        <q-item-section>
-                            Add Product 
-                        </q-item-section>
-                    </q-item>
+                <q-item 
+                @click="addProductModal= true"
+                clickable 
+                tag="a"
+                v-ripple
+                class="bg-primary rounded-borders q-my-md text-center text-subtitle2"
+                >
+                    <q-item-section>
+                        Add Product 
+                    </q-item-section>
+                </q-item>
             </q-tab-panel>
         </q-tab-panels>
     </q-card> 

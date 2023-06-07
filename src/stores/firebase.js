@@ -17,11 +17,14 @@ import {
     onChildAdded,
     update,
     remove,
+    get,
+    child,
     // storage Firebase
     storage,
     storageRef,
     uploadBytes,
     getDownloadURL,
+    deleteObject
 } from '../boot/firebase'
 export const useFirebaseStore = defineStore('firebase', {
     state: () => ({
@@ -48,6 +51,24 @@ export const useFirebaseStore = defineStore('firebase', {
        
     },
     actions: {  
+        deleteProduct(productId, ptoductTitle) {
+            let userId= auth.currentUser.uid 
+            remove(ref(db, 'products/' + userId +'/'+ productId))
+                .then(()=> {
+                    Notify.create({
+                        message: ptoductTitle + ' was deleted',
+                        color: 'secondary',
+                        timeout: '1500'
+                    })
+                    deleteObject(storageRef(storage, 'products/'+ userId +'/'+ productId))
+                    .then(() => {
+                        console.log('product image deleted');
+                    }).catch((error) => {
+                        console.log('// Uh-oh, an error occurred!');                        
+                    });
+                    this.stopBar();
+                })
+        },
         getStoresFirebase() {
             onValue(ref(db, 'stores'), (snapshot) => {
                 const data = snapshot.val();
