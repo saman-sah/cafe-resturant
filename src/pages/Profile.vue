@@ -151,6 +151,7 @@
                                         padding="xs"
                                         color="primary" 
                                         icon="edit" 
+                                        @click="updateProduct(product, key)"
                                         />
                                         <q-btn
                                         padding="xs"
@@ -183,16 +184,34 @@
     <q-dialog v-model="addProductModal" full-width>
       <AddProduct @closePopup="addProductModal= false"/>
     </q-dialog>  
+    <q-dialog v-model="updateProductModal" full-width>
+        <UpdateProduct         
+        :product="productEdited" 
+        :productId="productId"
+        @closePopup="updateProductModal= false"
+        />
+    </q-dialog> 
   </q-page>
 </template>
 
 <script setup>
 import { ref } from "vue";
 import AddProduct from '../components/admin/AddProduct.vue'
+import UpdateProduct from '../components/admin/UpdateProduct.vue'
 import { useFirebaseStore } from 'stores/firebase'
 const storeFirebase= useFirebaseStore();
 const tab=ref('userProfile')
+const productEdited= ref(null)
+const productId= ref(null)
 const addProductModal= ref(false)
+const updateProductModal= ref(false)
+function updateProduct(product, updateProductId) {
+    productEdited.value=product
+    productId.value=updateProductId
+    // console.log(productEdited.value);
+    console.log(productEdited.value);
+    updateProductModal.value= true
+}
 </script>
 
 <style>
