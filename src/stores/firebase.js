@@ -61,6 +61,34 @@ export const useFirebaseStore = defineStore('firebase', {
                 price:product.price,
                 title:product.title
             });
+            if(typeof product.image == 'object') {
+                uploadBytes(storageRef(storage, 'products/'+ userId +'/'+ productId), product.image)
+                .then((snapshot) => {
+                    console.log('uploaded img');
+                    // Get Uploaded store Image
+                    getDownloadURL(storageRef(storage, 'products/'+ userId +'/'+ productId))
+                    .then((url) => {
+                        // Create Store with uploaded image
+                        update(ref(db, 'products/'+ userId +'/'+ productId), {
+                            image: url
+                        })
+                        this.stopBar();                          
+                    })
+                    // Catch error for getting store image url
+                    .catch((error) => {
+                    switch (error.code) {
+                        case 'storage/object-not-found':
+                        break;
+                        case 'storage/unauthorized':
+                        break;
+                        case 'storage/canceled':
+                        break;
+                        case 'storage/unknown':
+                        break;
+                    }
+                    });                            
+                })
+            }
         },
         deleteProduct(productId, ptoductTitle) {
             let userId= auth.currentUser.uid 
@@ -100,16 +128,16 @@ export const useFirebaseStore = defineStore('firebase', {
             const dbProductRef = push(ref(db, 'products/' + userId));
             set(dbProductRef, productData)
             .then(() => {
-                const productID = dbProductRef.key;
+                const productId = dbProductRef.key;
                 // Upload Store Image 
-                uploadBytes(storageRef(storage, 'products/'+ userId +'/'+ productID), formData.imgUrl)
+                uploadBytes(storageRef(storage, 'products/'+ userId +'/'+ productId), formData.imgUrl)
                 .then((snapshot) => {
                     console.log('uploaded img');
                     // Get Uploaded store Image
-                    getDownloadURL(storageRef(storage, 'products/'+ userId +'/'+ productID))
+                    getDownloadURL(storageRef(storage, 'products/'+ userId +'/'+ productId))
                     .then((url) => {
                         // Create Store with uploaded image
-                        update(ref(db, 'products/'+ userId +'/'+ productID), {
+                        update(ref(db, 'products/'+ userId +'/'+ productId), {
                             image: url
                         })
                         this.stopBar();                          
