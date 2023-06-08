@@ -53,6 +53,15 @@ export const useFirebaseStore = defineStore('firebase', {
        
     },
     actions: {  
+        updateProduct(product, productId) {
+            let userId= auth.currentUser.uid 
+            update(ref(db, 'products/' + userId + '/' + productId ),{
+                category:product.category,
+                description:product.description,
+                price:product.price,
+                title:product.title
+            });
+        },
         deleteProduct(productId, ptoductTitle) {
             let userId= auth.currentUser.uid 
             remove(ref(db, 'products/' + userId +'/'+ productId))
