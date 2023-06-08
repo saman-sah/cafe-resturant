@@ -6,7 +6,7 @@
       :key="key"      
       class="col-6 item q-pa-sm q-mb-sm">
         <q-card class="my-card bg-dark card-item-store" flat bordered >
-          <q-img src="https://source.unsplash.com/random/550x366/?fastfood" />
+          <q-img :src="store.image" />
 
           <q-card-section class="q-py-sm">
             <q-btn
@@ -35,24 +35,7 @@
             <div class="text-caption text-white">
               {{ store.description }}
             </div>
-          </q-card-section>
-
-          <!-- <q-separator /> -->
-
-          <!-- <q-card-actions class="row justify-between">
-            <q-btn-dropdown color="primary" label="" flat icon="menu" menu-self="bottom end">
-              <q-list>
-
-                <q-item clickable v-close-popup @click="onItemClick">
-                  <q-item-section>
-                    <q-item-label>Videos</q-item-label>
-                  </q-item-section>
-                </q-item>
-
-              </q-list>
-            </q-btn-dropdown>
-            <span>rate: 4.5</span>
-          </q-card-actions> -->
+          </q-card-section>       
         </q-card>
       </div>
       
