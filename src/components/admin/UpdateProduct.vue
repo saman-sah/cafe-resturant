@@ -3,7 +3,6 @@
         <q-form
         v-if="props.product"
         @submit.prevent="validationUpdateProduct"      
-        @reset="onReset" 
         class="bg-dark q-pa-lg column rounded-borders"
         >
         <q-input
@@ -42,13 +41,17 @@
         dark
         lazy-rules
         :rules="[
-            val => val.name != null || 'Please attach your image',
-            val => val.size < 250000 || 'Please select image less than 250KB',
+            val ? val => val.size < 250000 || 'Please select image less than 250KB' : '',
         ]"
         >
             <template v-slot:prepend>
                 <q-icon name="attach_file" />
             </template>
+            <q-avatar rounded>
+                <q-img
+                :src="props.product.image"
+                />
+            </q-avatar>
         </q-file>
 
         <q-select class="q-mt-md" outlined 
@@ -118,7 +121,6 @@
 
         <div>
             <q-btn label="Submit" type="submit" color="primary"/>
-            <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
         </div>
     </q-form>
 </div>    
@@ -129,7 +131,6 @@
     import { useFirebaseStore } from 'stores/firebase'
     import { defineEmits } from 'vue'
     import { defineProps } from 'vue';
-import { store } from "quasar/wrappers";
     const props = defineProps({
         product: Object,
         productId: String
@@ -158,14 +159,6 @@ import { store } from "quasar/wrappers";
         if (indexToRemove !== -1) {
             formData.recipes.splice(indexToRemove, 1);
         }
-    }
-    function onReset() {
-        formData.title= ''
-        formData.description= ''
-        formData.price= Number
-        formData.imgUrl= {}
-        formData.recipes= []
-        formData.category= ''
     }
 </script>
 

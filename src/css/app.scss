@@ -2,15 +2,23 @@
 .home {
     .card-item-store {
         .q-img__container {
-            border-radius: 0 0 0 100px;
+            border-radius: 0 0 100px 0 ;
         }
     }
 }
 
 .profile {
-    .q-img__container {
-        border-radius: 0 0 0 100px;
+    .storeProfile {
+        .q-img__container {
+            border-radius: 0 0 100px 0;
+        }
     }
+    .storeProducts {
+        .q-img__container {
+            border-radius: 0 0 100px 0;
+        }
+    }
+    
 }
 
 .store {

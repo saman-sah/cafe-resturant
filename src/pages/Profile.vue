@@ -20,7 +20,7 @@
         <q-tab-panels v-model="tab" animated>
 
             <!-- User Info -->
-            <q-tab-panel name="userProfile">
+            <q-tab-panel name="userProfile" class="userProfile">
                 <q-card 
                 v-if="storeFirebase.userInfo"
                 class="my-card bg-dark text-white" 
@@ -63,7 +63,7 @@
             </q-tab-panel>
 
             <!-- Store Info -->
-            <q-tab-panel name="storeProfile">
+            <q-tab-panel name="storeProfile" class="storeProfile">
                 <q-card 
                 v-if="storeFirebase.storeInfo"
                 class="my-card bg-dark text-white" 
@@ -117,7 +117,7 @@
             </q-tab-panel>
 
             <!-- My Store Products -->
-            <q-tab-panel name="storeProducts">
+            <q-tab-panel name="storeProducts" class="storeProducts">
                 <template v-if="storeFirebase.products">
                     <q-card class="my-card q-mb-md bg-dark" 
                     v-for="(product, key, index) in storeFirebase.products" 
