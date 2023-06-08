@@ -15,6 +15,8 @@ import {
     push,
     onValue,
     onChildAdded,
+    onChildChanged,
+    onChildRemoved,
     update,
     remove,
     get,
@@ -131,8 +133,19 @@ export const useFirebaseStore = defineStore('firebase', {
             });
         },
         getStoreProducts(storeId) {
+            this.productsCount=0;
             this.startBar();
+            onChildRemoved(ref(db, 'products/'+ storeId), (snapshot) => {
+                const product = snapshot.val();
+                const productKey = snapshot.key;
+                    if(product) {                                            
+                        delete this.products[productKey];  
+                        this.productsCount--                        
+                    }
+                    this.stopBar();
+              });
             onChildAdded(ref(db, 'products/'+ storeId), (snapshot) => {
+                console.log('On Child Added');
                 const product = snapshot.val();
                 const productKey = snapshot.key;
                     if(product) {                    
@@ -141,6 +154,17 @@ export const useFirebaseStore = defineStore('firebase', {
                     }
                     this.stopBar();
               });
+              onChildChanged(ref(db, 'products/'+ storeId), (snapshot) => {
+                console.log('On Child Change');
+                const product = snapshot.val();
+                const productKey = snapshot.key;
+                    if(product) {                    
+                        this.products[productKey]=product;  
+                        this.productsCount++ 
+                    }
+                    this.stopBar();
+              });
+              
               
         },
         // Check User Logged In

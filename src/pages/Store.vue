@@ -31,12 +31,12 @@
             <!-- Fast Food Pnel -->
             <q-tab-panel name="allProducts">
                 <q-card class="my-card q-mb-md bg-dark" 
-                v-for="(product, key, index) in storeFirebase.products" 
+                v-for="(product, key) in storeFirebase.products" 
                 :key="key">                
                     <q-card-section horizontal>
                         <q-img
                         class="col-4"
-                        :src="'https://source.unsplash.com/random/160x120/?fast-food-'+index"
+                        :src="product.image"
                         />
 
                         <q-card-section class="q-pa-md title bg-dark col-8" >
@@ -72,15 +72,15 @@
 
             <!-- Fast Food Pnel -->
             <q-tab-panel name="fastfood">
-                <template v-for="(product, key, index) in storeFirebase.products" 
-                :key="key">
+                <template v-for="(product, key) in storeFirebase.products" 
+                :key=" key">
                 
                 <q-card class="my-card q-mb-md bg-dark" 
                 v-if="product.category== 'fastfood'">                
                         <q-card-section horizontal>
                             <q-img
                             class="col-4"
-                            :src="'https://source.unsplash.com/random/160x120/?fast-food-'+index"
+                            :src="product.image"
                             />
                             
                             <q-card-section class="q-pa-md title bg-dark col-8" >
@@ -117,7 +117,7 @@
 
             <!-- Hot Drinks Pnel -->
             <q-tab-panel name="hot">
-                <template v-for="(product, key, index) in storeFirebase.products" 
+                <template v-for="(product, key) in storeFirebase.products" 
                 :key="key">
                     <q-card class="my-card q-mb-md bg-dark" 
                     v-if="product.category== 'hot'"
@@ -125,7 +125,7 @@
                         <q-card-section horizontal>
                             <q-img
                             class="col-4"
-                            :src="'https://source.unsplash.com/random/160x120/?fast-food-'+index"
+                            :src="product.image"
                             />
 
                             <q-card-section class="q-pa-md title bg-dark col-8" >
@@ -163,8 +163,8 @@
             <!-- Cold Drinks Pnel -->
             <q-tab-panel name="cold">
                 <template 
-                v-for="(product, key, index) in storeFirebase.products" 
-                :key="key">
+                v-for="(product, key) in storeFirebase.products" 
+                :key="key">                
                     <q-card 
                     class="my-card q-mb-md bg-dark" 
                     v-if="product.category== 'cold'"
@@ -172,7 +172,7 @@
                         <q-card-section horizontal>
                             <q-img
                             class="col-4"
-                            :src="'https://source.unsplash.com/random/160x120/?fast-food-'+index"
+                            :src="product.image"
                             />
 
                             <q-card-section class="q-pa-md title bg-dark col-8" >
