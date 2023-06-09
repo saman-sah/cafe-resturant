@@ -68,7 +68,7 @@
         </q-select>
 
         <q-list class="shadow-2 rounded-borders q-my-md bg-white q-pa-md">
-            <template props.product.recipes>
+            <template v-if="props.product.recipes">
 
                 <q-item dark
                 v-for="(recipe, index) in props.product.recipes"
@@ -146,18 +146,21 @@
         emits('close-popup')
     }
     function addRecipe() {
-        const indexToRemove = formData.recipes.indexOf(newRecipe.value);
+        if(!props.product.recipes) {
+            props.product.recipes=[]
+        }
+        const indexToRemove = props.product.recipes.indexOf(newRecipe.value);
         if (indexToRemove !== -1) {
             console.log(newRecipe.value+ ' already added');
         }else {
-            formData.recipes.push(newRecipe.value);
+            props.product.recipes.push(newRecipe.value);
         }
         newRecipe.value=''    
     }
     function removeRecipe(recipeTitle) {
-        const indexToRemove = formData.recipes.indexOf(recipeTitle);
+        const indexToRemove = props.product.recipes.indexOf(recipeTitle);
         if (indexToRemove !== -1) {
-            formData.recipes.splice(indexToRemove, 1);
+            props.product.recipes.splice(indexToRemove, 1);
         }
     }
 </script>
