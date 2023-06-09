@@ -54,12 +54,13 @@ export const useFirebaseStore = defineStore('firebase', {
     },
     actions: {  
         updateProduct(product, productId) {
-            let userId= auth.currentUser.uid 
+            let userId= auth.currentUser.uid
             update(ref(db, 'products/' + userId + '/' + productId ),{
                 category:product.category,
                 description:product.description,
                 price:product.price,
-                title:product.title
+                title:product.title,
+                recipes: product.recipes ? product.recipes : []
             });
             if(typeof product.image == 'object') {
                 uploadBytes(storageRef(storage, 'products/'+ userId +'/'+ productId), product.image)
@@ -115,6 +116,8 @@ export const useFirebaseStore = defineStore('firebase', {
             });
         },
         addProduct(formData) {
+            console.log('formData');
+            console.log(formData);
             this.startBar();
             let userId= auth.currentUser.uid 
             const productData = {
@@ -124,7 +127,7 @@ export const useFirebaseStore = defineStore('firebase', {
                 image: formData.imgUrl.name,
                 category: formData.category,
                 recipes: formData.recipes,
-              };
+            };
             const dbProductRef = push(ref(db, 'products/' + userId));
             set(dbProductRef, productData)
             .then(() => {
