@@ -1,10 +1,13 @@
 <template>
     <q-page class="q-pa-md store" v-if="storeFirebase.products">
         <q-banner inline-actions rounded class="text-dark bg-primary q-mb-md">
-            <strong>{{ storeFirebase.storeInfo.title }}</strong>
-            <p> You have lost connection to the internet. This app is offline.</p>
+            <strong><span class="text-secondary">{{ storeFirebase.storeInfo.title }}</span>
+                 has 
+                <span v-if="storeFirebase.productsCount">{{ storeFirebase.productsCount }}</span> 
+                products
+            </strong>                    
             <template v-slot:action>
-                <span v-if="storeFirebase.productsCount">{{ storeFirebase.productsCount }}</span>
+                <q-icon name="store" size="md" ></q-icon>
             </template>
         </q-banner>
         <!-- Tabs -->
@@ -13,7 +16,7 @@
         inline-label
         dense        
         active-color="primary"
-        class="bg-dark text-white shadow-2 q-pa-sm flex justify-around" 
+        class="bg-dark text-white shadow-2 q-pa-sm flex" 
         >
             <q-tab name="allProducts" icon="border_all" label="All Products" />
             <q-tab name="fastfood" icon="fastfood" label="FastFood" />
@@ -39,7 +42,7 @@
                         :src="product.image"
                         />
 
-                        <q-card-section class="q-pa-md title bg-dark col-8" >
+                        <q-card-section class="q-pa-md title bg-dark col-8 column justify-between" style="min-height: 100%;" >
                             <q-item class="title-price row justify-between items-top q-pa-none"
                             clickable
                             flat
@@ -51,7 +54,7 @@
                                 </span>
                                 <span class="text-h6 text-white">${{ product.price }}</span>
                             </q-item>
-                            <q-item class="title-price row justify-between items-top q-pa-none">
+                            <q-item class="title-price row justify-between items-center q-pa-none">
                                 <div class="description row">
                                     <div class="text-caption text-white ">
                                         {{ product.description }}
@@ -75,41 +78,40 @@
                 <template v-for="(product, key) in storeFirebase.products" 
                 :key=" key">
                 
-                <q-card class="my-card q-mb-md bg-dark" 
-                v-if="product.category== 'fastfood'">                
+                    <q-card class="my-card q-mb-md bg-dark" 
+                    v-if="product.category== 'fastfood'">                
                         <q-card-section horizontal>
                             <q-img
                             class="col-4"
                             :src="product.image"
-                            />
-                            
+                            />                            
                             <q-card-section class="q-pa-md title bg-dark col-8" >
-                            <q-item class="title-price row justify-between items-top q-pa-none"
-                            clickable
-                            flat
-                            tag="a"
-                            to="/store/resturant/title"
-                            >
-                                <span class="text-primary text-h6 ">
-                                    {{ product.title }}
-                                </span>
-                                <span class="text-h6 text-white">${{ product.price }}</span>
-                            </q-item>
-                            <q-item class="title-price row justify-between items-top q-pa-none">
-                                <div class="description row">
-                                    <div class="text-caption text-white ">
-                                        {{ product.description }}
+                                <q-item class="title-price row justify-between items-top q-pa-none"
+                                clickable
+                                flat
+                                tag="a"
+                                to="/store/resturant/title"
+                                >
+                                    <span class="text-primary text-h6 ">
+                                        {{ product.title }}
+                                    </span>
+                                    <span class="text-h6 text-white">${{ product.price }}</span>
+                                </q-item>
+                                <q-item class="title-price row justify-between items-top q-pa-none">
+                                    <div class="description row">
+                                        <div class="text-caption text-white ">
+                                            {{ product.description }}
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="btn-recipe">
-                                    <q-btn 
-                                    color="secondary" 
-                                    glossy 
-                                    label="Recipe"
-                                    @click="showRecipeModal = true" />
-                                </div>
-                            </q-item>
-                        </q-card-section>
+                                    <div class="btn-recipe">
+                                        <q-btn 
+                                        color="secondary" 
+                                        glossy 
+                                        label="Recipe"
+                                        @click="showRecipeModal = true" />
+                                    </div>
+                                </q-item>
+                            </q-card-section>
                         </q-card-section>
                     </q-card>
                 </template>                    
@@ -129,32 +131,32 @@
                             />
 
                             <q-card-section class="q-pa-md title bg-dark col-8" >
-                            <q-item class="title-price row justify-between items-top q-pa-none"
-                            clickable
-                            flat
-                            tag="a"
-                            to="/store/resturant/title"
-                            >
-                                <span class="text-primary text-h6 ">
-                                    {{ product.title }}
-                                </span>
-                                <span class="text-h6 text-white">${{ product.price }}</span>
-                            </q-item>
-                            <q-item class="title-price row justify-between items-top q-pa-none">
-                                <div class="description row">
-                                    <div class="text-caption text-white ">
-                                        {{ product.description }}
+                                <q-item class="title-price row justify-between items-top q-pa-none"
+                                clickable
+                                flat
+                                tag="a"
+                                to="/store/resturant/title"
+                                >
+                                    <span class="text-primary text-h6 ">
+                                        {{ product.title }}
+                                    </span>
+                                    <span class="text-h6 text-white">${{ product.price }}</span>
+                                </q-item>
+                                <q-item class="title-price row justify-between items-top q-pa-none">
+                                    <div class="description row">
+                                        <div class="text-caption text-white ">
+                                            {{ product.description }}
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="btn-recipe">
-                                    <q-btn 
-                                    color="secondary" 
-                                    glossy 
-                                    label="Recipe"
-                                    @click="showRecipeModal = true" />
-                                </div>
-                            </q-item>
-                        </q-card-section>
+                                    <div class="btn-recipe">
+                                        <q-btn 
+                                        color="secondary" 
+                                        glossy 
+                                        label="Recipe"
+                                        @click="showRecipeModal = true" />
+                                    </div>
+                                </q-item>
+                            </q-card-section>
                         </q-card-section>
                     </q-card>
                 </template>
@@ -176,32 +178,32 @@
                             />
 
                             <q-card-section class="q-pa-md title bg-dark col-8" >
-                            <q-item class="title-price row justify-between items-top q-pa-none"
-                            clickable
-                            flat
-                            tag="a"
-                            to="/store/resturant/title"
-                            >
-                                <span class="text-primary text-h6 ">
-                                    {{ product.title }}
-                                </span>
-                                <span class="text-h6 text-white">${{ product.price }}</span>
-                            </q-item>
-                            <q-item class="title-price row justify-between items-top q-pa-none">
-                                <div class="description row">
-                                    <div class="text-caption text-white ">
-                                        {{ product.description }}
+                                <q-item class="title-price row justify-between items-top q-pa-none"
+                                clickable
+                                flat
+                                tag="a"
+                                to="/store/resturant/title"
+                                >
+                                    <span class="text-primary text-h6 ">
+                                        {{ product.title }}
+                                    </span>
+                                    <span class="text-h6 text-white">${{ product.price }}</span>
+                                </q-item>
+                                <q-item class="title-price row justify-between items-top q-pa-none">
+                                    <div class="description row">
+                                        <div class="text-caption text-white ">
+                                            {{ product.description }}
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="btn-recipe">
-                                    <q-btn 
-                                    color="secondary" 
-                                    glossy 
-                                    label="Recipe"
-                                    @click="recipes=product.recipes && (showRecipeModal = true)" />
-                                </div>
-                            </q-item>
-                        </q-card-section>
+                                    <div class="btn-recipe">
+                                        <q-btn 
+                                        color="secondary" 
+                                        glossy 
+                                        label="Recipe"
+                                        @click="recipes=product.recipes && (showRecipeModal = true)" />
+                                    </div>
+                                </q-item>
+                            </q-card-section>
                         </q-card-section>
                     </q-card>
                 </template>
@@ -234,6 +236,8 @@
     }
 </script>
 
-<style>
-
+<style scope lang="scss">
+.q-tabs__content {
+    justify-content: space-around;
+}
 </style>

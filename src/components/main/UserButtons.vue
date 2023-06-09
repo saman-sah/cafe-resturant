@@ -7,14 +7,20 @@
     label="Account"
     flat
     >
-        <div class="row no-wrap q-pa-md bg-dark text-white">
+        <div class="row no-wrap q-pa-sm bg-dark text-white">
             <div class="column">
                 <div class="text-subtitle2 text-center q-mb-md">
                     {{ storeFirebase.userInfo.name }}
                 </div>
                 <q-separator inset dark />
                 <q-list>
-                    <q-item clickable v-close-popup tag="a" to="/account/profile">
+                    <q-item 
+                    clickable 
+                    v-close-popup 
+                    tag="a" 
+                    to="/account/profile"
+                    class="q-py-none"
+                    >
                         <q-item-section>
                             <q-item-label>Profile</q-item-label>
                         </q-item-section>
@@ -25,6 +31,7 @@
                     v-close-popup  
                     tag="a" 
                     :to="'/store/'+ storeFirebase.storeInfo.slug + '/' + storeFirebase.storeInfo.storeId"
+                    class="q-py-none"
                     >
                         <q-item-section>
                             <q-item-label>My Store</q-item-label>
