@@ -1,10 +1,10 @@
 <template>
   <q-page class="home">
     
-    <div class="row" v-if="storeFirebase.stores">
+    <div class="row justify-around" v-if="storeFirebase.stores">
       <div v-for="(store, key) in storeFirebase.stores"
       :key="key"      
-      class="col-6 item q-pa-sm q-mb-sm">
+      class="item q-pa-sm q-mb-sm col-auto" style="min-width: 240px">
         <q-card class="my-card bg-dark card-item-store" flat bordered >
           <q-img :src="store.image" />
 
@@ -14,17 +14,20 @@
               color="secondary"
               icon="place"
               class="absolute"
-              size="md"
-              style="top: 0; right: 12px; transform: translateY(-50%);"
+              size="sm"
+              style="top: -15px; right: 3px; transform: translateY(-50%);"
               @click="location= !location"
             />
 
             <div class="row no-wrap items-center">
-              <div class="col text-h6 ellipsis text-primary">
+              <div class="col text-h6 ellipsis text-primary store-title ">
                 <q-item
                 clickable
+                min-height="30px"
                 tag="a"
-                :to="'/store/'+ store.slug + '/' + key">
+                :to="'/store/'+ store.slug + '/' + key"
+                class="q-pa-none"
+                >
                   {{ store.title }}
                 </q-item>
               </div>
@@ -55,3 +58,10 @@ import { useFirebaseStore } from 'stores/firebase'
 const storeFirebase= useFirebaseStore();
 const location= ref(false)
 </script>
+<style scope lang="scss">
+.store-title {
+    .q-item {
+      min-height: 30px;
+    }
+}
+</style>
