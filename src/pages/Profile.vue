@@ -118,6 +118,17 @@
 
             <!-- My Store Products -->
             <q-tab-panel name="storeProducts" class="storeProducts">
+                <q-item 
+                @click="addProductModal= true"
+                clickable 
+                tag="a"
+                v-ripple
+                class="bg-primary rounded-borders q-my-md text-center text-h6"
+                >
+                    <q-item-section>
+                        Add New Product 
+                    </q-item-section>
+                </q-item>
                 <template v-if="storeFirebase.products">
                     <q-card class="my-card q-mb-md bg-dark" 
                     v-for="(product, key, index) in storeFirebase.products" 
@@ -166,18 +177,7 @@
                         </q-card-section>
                     </q-card>
                 </template>
-                
-                <q-item 
-                @click="addProductModal= true"
-                clickable 
-                tag="a"
-                v-ripple
-                class="bg-primary rounded-borders q-my-md text-center text-subtitle2"
-                >
-                    <q-item-section>
-                        Add Product 
-                    </q-item-section>
-                </q-item>
+                                
             </q-tab-panel>
         </q-tab-panels>
     </q-card> 

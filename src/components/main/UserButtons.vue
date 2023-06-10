@@ -14,6 +14,7 @@
                 </div>
                 <q-separator inset dark />
                 <q-list>
+                    <!-- My Profile link -->
                     <q-item 
                     clickable 
                     v-close-popup 
@@ -26,6 +27,7 @@
                         </q-item-section>
                     </q-item>
 
+                    <!-- My Store link -->
                     <q-item v-if="storeFirebase.storeInfo" 
                     clickable 
                     v-close-popup  
@@ -43,13 +45,13 @@
 
             <q-separator vertical inset class="q-mx-sm" />
 
-            <div class="column items-center">
+            <div class="column items-center justify-around">
+                <!-- User avatar -->
                 <q-avatar size="72px">
                     <img src="https://cdn.quasar.dev/img/boy-avatar.png">
                 </q-avatar>
-                <div class="text-subtitle1 q-mt-md q-mb-xs">
-                    
-                </div>
+
+                <!-- Logout button -->
                 <q-btn
                 @click="storeFirebase.logOut()"
                 color="primary"

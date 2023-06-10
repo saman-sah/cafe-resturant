@@ -15,8 +15,14 @@
   const storeFirebase= useFirebaseStore();
   const bar= ref(null)
   onMounted(()=> {
+
+    // Check user Logged in - initial functions
     storeFirebase.handleAuthStateChange(); 
+
+    // Getting Stores
     storeFirebase.getStoresFirebase(); 
+
+    // Set ref for ajax topbar loading
     storeFirebase.setBar(bar.value);
   })
 </script>

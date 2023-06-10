@@ -19,11 +19,15 @@
   
             <q-tab-panels v-model="tab" animated>
                 <q-tab-panel name="login">
+
+                    <!-- Login form -->
                     <form 
                     @submit.prevent="loginValidationForm" 
                     @reset="onReset"
                     class="q-gutter-md"
                     >
+
+                        <!-- Email input field -->
                         <q-input 
                         outlined 
                         v-model="formData.email" 
@@ -33,6 +37,8 @@
                         lazy-rules
                         :rules="[ val => val && val.length > 0 || 'Please type your email']"
                         />
+
+                        <!-- Password input field -->
                         <q-input 
                         :type="isPwd ? 'password' : 'text'"
                         outlined 
@@ -50,6 +56,8 @@
                                 />
                             </template>
                         </q-input>
+
+                        <!-- Submit and Reset Buttons -->
                         <div class="row justify-end">
                             <q-btn 
                             color="primary" 
@@ -64,7 +72,14 @@
                 </q-tab-panel>
     
                 <q-tab-panel name="register">
-                    <form @submit.prevent="registerValidationForm" class="q-gutter-md">
+
+                    <!-- Register form -->
+                    <form 
+                    @submit.prevent="registerValidationForm" 
+                    class="q-gutter-md"
+                    >
+
+                        <!-- Name input field -->
                         <q-input 
                         outlined 
                         v-model="formData.name" 
@@ -72,6 +87,8 @@
                         lazy-rules
                         :rules="[ val => val && val.length > 0 || 'Please type your name']"
                         />
+
+                        <!-- Email input field -->
                         <q-input 
                         outlined 
                         v-model="formData.email" 
@@ -81,6 +98,8 @@
                         lazy-rules
                         :rules="[ val => val && val.length > 0 || 'Please type your email']"
                         />
+
+                        <!-- Password input field -->
                         <q-input 
                         :type="isPwd ? 'password' : 'text'"
                         outlined 
@@ -98,8 +117,15 @@
                                 />
                             </template>
                         </q-input>
+
                         <div class="row justify-end">
-                            <q-btn v-close-popup color="primary" label="Register" type="submit"/>
+                            <!-- Submit and Reset Buttons -->
+                            <q-btn 
+                            v-close-popup 
+                            color="primary" 
+                            label="Register" 
+                            type="submit"
+                            />
                         </div>
                     </form>
                 </q-tab-panel>
@@ -110,28 +136,36 @@
   </template>
 
 <script setup>
-import { reactive, ref } from "vue";
-import { useFirebaseStore } from 'stores/firebase'
-const storeFirebase= useFirebaseStore();
-const tab=ref('login')
-const formData= reactive({
-    name: '',
-    email: '',
-    password:'',
-    role: 'user'
-})
-const isPwd= ref(true)
-function loginValidationForm() {
-    storeFirebase.login(formData)
-}
-function registerValidationForm() {
-    storeFirebase.register(formData)
-}
-function onReset() {
-    formData.name= ''
-    formData.email= ''
-    formData.password= ''
-}
+    import { reactive, ref } from "vue";
+    import { useFirebaseStore } from 'stores/firebase'
+    const storeFirebase= useFirebaseStore();
+    const tab=ref('login')
+
+    // FormData Object
+    const formData= reactive({
+        name: '',
+        email: '',
+        password:'',
+        role: 'user'
+    })
+    const isPwd= ref(true)
+
+    // submit login form - Function
+    function loginValidationForm() {
+        storeFirebase.login(formData)
+    }
+
+    // submit register form - Function
+    function registerValidationForm() {
+        storeFirebase.register(formData)
+    }
+
+    // Reset Form to empty Object - Function
+    function onReset() {
+        formData.name= ''
+        formData.email= ''
+        formData.password= ''
+    }
 </script>
 
 <style>

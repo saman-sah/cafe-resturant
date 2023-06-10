@@ -2,6 +2,8 @@
   <q-layout view="lHh Lpr lFf">
     <q-header elevated class="bg-dark text-primary">
       <q-toolbar>
+
+        <!-- Back button toolbar -->
         <q-btn
           flat
           dense
@@ -11,6 +13,7 @@
           @click="storeFirebase.router.go(-1)"
         />
 
+        <!-- Home page link -->
         <q-toolbar-title>
           <q-item
           clickable
@@ -21,12 +24,14 @@
           </q-item>          
         </q-toolbar-title>
 
+        <!-- User login-logout buttons -->
         <div>
-         <UserButtons />
+          <UserButtons />
         </div>
       </q-toolbar>
     </q-header>
 
+    <!-- Footer -->
     <q-footer class="bg-dark text-primary row justify-between" elevated>
       <q-item>
         <q-item-section class="text-overline">
@@ -48,6 +53,7 @@
       </q-item>
     </q-footer>
 
+    <!-- Main routing pages  -->
     <q-page-container>
       <router-view />
     </q-page-container>

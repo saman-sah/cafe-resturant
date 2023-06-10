@@ -5,6 +5,8 @@
         @submit.prevent="validationUpdateProduct"      
         class="bg-dark q-pa-lg column rounded-borders"
         >
+
+        <!-- Title input field -->
         <q-input
             outlined    
             dark
@@ -13,6 +15,8 @@
             lazy-rules
             :rules="[ val => val && val.length > 0 || 'Please type title for product']"
         />
+
+        <!-- Description input field -->
         <q-input
             outlined
             dark
@@ -22,6 +26,7 @@
             :rules="[ val => val && val.length > 0 || 'Please type description for product']"
         />
 
+        <!-- Price input field -->
         <q-input
             dark 
             outlined            
@@ -35,6 +40,7 @@
             ]"
         />
 
+        <!-- Image upload field -->
         <q-file         
         outlined
         v-model="props.product.image"
@@ -54,6 +60,7 @@
             </q-avatar>
         </q-file>
 
+        <!-- Category selection field -->
         <q-select class="q-mt-md" outlined 
         v-model="props.product.category" 
         :options="typeOptions" 
@@ -67,6 +74,7 @@
             </template>
         </q-select>
 
+        <!-- List of added recipes -->
         <q-list class="shadow-2 rounded-borders q-my-md bg-white q-pa-md">
             <template v-if="props.product.recipes">
 
@@ -117,8 +125,7 @@
             </q-item>
         </q-list>
 
-        <!-- <q-toggle class="text-white q-mt-xl"  v-model="accept" label="I accept the license and terms" /> -->
-
+        <!-- Submit and Reset Buttons -->
         <div>
             <q-btn label="Submit" type="submit" color="primary"/>
         </div>
@@ -131,20 +138,32 @@
     import { useFirebaseStore } from 'stores/firebase'
     import { defineEmits } from 'vue'
     import { defineProps } from 'vue';
+    const storeFirebase= useFirebaseStore();
+
+    // Categories of products
+    const typeOptions=ref(['fastfood', 'cold', 'hot'])
+    
+    // Const for added new recipe
+    const newRecipe=ref('')
+
+    // Props for getting product
     const props = defineProps({
         product: Object,
         productId: String
     });
+
+    // emit for closing popup after submit form
     const emits = defineEmits([
         'close-popup'
     ])
-    const storeFirebase= useFirebaseStore();
-    const typeOptions=ref(['fastfood', 'cold', 'hot'])
-    const newRecipe=ref('')
+
+    // submit add product form Function
     function validationUpdateProduct() {
         storeFirebase.updateProduct(props.product, props.productId);
         emits('close-popup')
     }
+
+    // Add Recipe - Function
     function addRecipe() {
         if(!props.product.recipes) {
             props.product.recipes=[]
@@ -157,6 +176,8 @@
         }
         newRecipe.value=''    
     }
+
+    // Remove Recipe - Function
     function removeRecipe(recipeTitle) {
         const indexToRemove = props.product.recipes.indexOf(recipeTitle);
         if (indexToRemove !== -1) {
