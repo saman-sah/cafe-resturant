@@ -54,6 +54,45 @@ export const useFirebaseStore = defineStore('firebase', {
     },
     actions: { 
         
+        // Update store
+        updateStore(store) {
+            let userId= auth.currentUser.uid
+            update(ref(db, 'stores/' + userId),{
+                address : store.address,
+                description : store.description,
+                location: store.location,
+                title: store.title,
+                slug : store.title.toLowerCase().replace(/[^\w-]+/g, "-"),
+            })
+            if(typeof store.image == 'object') {
+                uploadBytes(storageRef(storage, 'stores/'+ userId ), store.image)
+                .then((snapshot) => {
+                    console.log('uploaded img');
+                    // Get Uploaded store Image
+                    getDownloadURL(storageRef(storage, 'stores/'+ userId ))
+                    .then((url) => {
+                        // Create Store with uploaded image
+                        update(ref(db, 'stores/'+ userId ), {
+                            image: url
+                        })    
+                    })
+                    // Catch error for getting store image url
+                    .catch((error) => {
+                    switch (error.code) {
+                        case 'storage/object-not-found':
+                        break;
+                        case 'storage/unauthorized':
+                        break;
+                        case 'storage/canceled':
+                        break;
+                        case 'storage/unknown':
+                        break;
+                    }
+                    });                            
+                })
+            }
+        },
+
         // Update product
         updateProduct(product, productId) {
             let userId= auth.currentUser.uid
