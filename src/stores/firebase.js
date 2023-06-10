@@ -53,6 +53,13 @@ export const useFirebaseStore = defineStore('firebase', {
        
     },
     actions: { 
+        updateUserInfo(userInfo) {
+            let userId= auth.currentUser.uid
+            update(ref(db, 'users/' + userId),{
+                name : userInfo.name,
+                email : userInfo.email,
+            })
+        },
         
         // Update store
         updateStore(store) {
