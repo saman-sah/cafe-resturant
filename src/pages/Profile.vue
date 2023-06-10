@@ -110,6 +110,26 @@
                                     {{ storeFirebase.storeInfo.address }}
                                 </q-item-section>
                             </q-item>
+
+                            <q-separator inset dark />
+
+                            <q-item v-ripple class="q-mt-md">
+                                <q-btn 
+                                padding="xs"
+                                color="primary" 
+                                icon="edit" 
+                                label="Edit Store"
+                                class="col q-mr-sm"
+                                @click="updateStore(storeFirebase.storeInfo)"
+                                />
+                                <q-btn
+                                padding="xs"
+                                color="secondary"
+                                icon="delete"
+                                class="col q-ml-sm"
+                                label="Delete Store"
+                                />
+                            </q-item>
                            
                         </q-list>
                     </q-card-section>                    
@@ -181,9 +201,21 @@
             </q-tab-panel>
         </q-tab-panels>
     </q-card> 
+
+    <!-- Add Product Modal -->
     <q-dialog v-model="addProductModal" full-width>
       <AddProduct @closePopup="addProductModal= false"/>
-    </q-dialog>  
+    </q-dialog> 
+    
+    <!-- Update Store Modal -->
+    <q-dialog v-model="showModalEditStore" full-width>
+      <UpdateStore 
+      :store="storeEdited"
+      @closePopup="showModalEditStore= false"
+      />
+    </q-dialog>
+    
+    <!-- Update Product Modal -->
     <q-dialog v-model="updateProductModal" full-width>
         <UpdateProduct         
         :product="productEdited" 
@@ -195,23 +227,30 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
-import AddProduct from '../components/admin/AddProduct.vue'
-import UpdateProduct from '../components/admin/UpdateProduct.vue'
-import { useFirebaseStore } from 'stores/firebase'
-const storeFirebase= useFirebaseStore();
-const tab=ref('userProfile')
-const productEdited= ref(null)
-const productId= ref(null)
-const addProductModal= ref(false)
-const updateProductModal= ref(false)
-function updateProduct(product, updateProductId) {
-    productEdited.value=product
-    productId.value=updateProductId
-    // console.log(productEdited.value);
-    console.log(productEdited.value);
-    updateProductModal.value= true
-}
+    import { ref } from "vue";
+    import AddProduct from '../components/admin/AddProduct.vue'
+    import UpdateProduct from '../components/admin/UpdateProduct.vue'
+    import UpdateStore from '../components/modals/UpdateStore.vue'
+    import { useFirebaseStore } from 'stores/firebase'
+    const storeFirebase= useFirebaseStore();
+    const tab= ref('storeProfile')
+    const showModalEditStore= ref(false)
+    const productEdited= ref(null)
+    const productId= ref(null)
+    const storeEdited= ref(null)
+    const addProductModal= ref(false)
+    const updateProductModal= ref(false)
+    function updateProduct(product, updateProductId) {
+        productEdited.value=product
+        productId.value=updateProductId
+        // console.log(productEdited.value);
+        console.log(productEdited.value);
+        updateProductModal.value= true
+    }
+    function updateStore(store) {
+        storeEdited.value=store
+        showModalEditStore.value = true
+    }
 </script>
 
 <style>
