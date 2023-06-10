@@ -52,7 +52,9 @@ export const useFirebaseStore = defineStore('firebase', {
     getters: {
        
     },
-    actions: {  
+    actions: { 
+        
+        // Update product
         updateProduct(product, productId) {
             let userId= auth.currentUser.uid
             update(ref(db, 'products/' + userId + '/' + productId ),{
@@ -91,6 +93,8 @@ export const useFirebaseStore = defineStore('firebase', {
                 })
             }
         },
+
+        // Delete Product
         deleteProduct(productId, ptoductTitle) {
             let userId= auth.currentUser.uid 
             remove(ref(db, 'products/' + userId +'/'+ productId))
@@ -109,12 +113,16 @@ export const useFirebaseStore = defineStore('firebase', {
                     this.stopBar();
                 })
         },
+
+        // Get Stores
         getStoresFirebase() {
             onValue(ref(db, 'stores'), (snapshot) => {
                 const data = snapshot.val();
                 this.stores= data                
             });
         },
+
+        // Add Product
         addProduct(formData) {
             console.log('formData');
             console.log(formData);
@@ -172,6 +180,8 @@ export const useFirebaseStore = defineStore('firebase', {
                 console.error("Error adding object: ", error);
             });
         },
+
+        // Get Store Product
         getStoreProducts(storeId) {
             this.productsCount=0;
             this.startBar();
@@ -207,6 +217,7 @@ export const useFirebaseStore = defineStore('firebase', {
               
               
         },
+        
         // Check User Logged In
         handleAuthStateChange() {
             auth.onAuthStateChanged(user=> {
@@ -249,7 +260,7 @@ export const useFirebaseStore = defineStore('firebase', {
         },
         //End--------- Check User Logged In
 
-
+        // Login Firebase Auth
         login(userData) {
             this.startBar();
             signInWithEmailAndPassword(auth, userData.email, userData.password)
@@ -355,7 +366,7 @@ export const useFirebaseStore = defineStore('firebase', {
             
         },
 
-        //Register Firebase Auth
+        //Logout Firebase Auth
         logOut() {
             this.startBar();
             signOut(auth).then(res=> {
@@ -378,9 +389,7 @@ export const useFirebaseStore = defineStore('firebase', {
                 this.stopBar(); 
             })    
             
-        },
-        //End--------- Logout Firebase Auth
-        
+        },        
 
         setBar(bar) {
             this.bar = bar;
@@ -394,11 +403,6 @@ export const useFirebaseStore = defineStore('firebase', {
             if (this.bar) {
               this.bar.stop();
             }
-        },
-        step2(params) {
-            this.showModalStep2= true
-            this.dataStep1= params;
-        }
-      
+        },      
     },
 });

@@ -2,13 +2,19 @@
   <q-page class="home">
     
     <div class="row justify-around" v-if="storeFirebase.stores">
+
+      <!-- List of Stores -->
       <div v-for="(store, key) in storeFirebase.stores"
       :key="key"      
       class="item q-pa-sm q-mb-sm col-auto" style="min-width: 240px">
         <q-card class="my-card bg-dark card-item-store" flat bordered >
+
+          <!-- Store Image -->
           <q-img :src="store.image" />
 
           <q-card-section class="q-py-sm">
+
+            <!-- Store Location -->
             <q-btn
               round
               color="secondary"
@@ -21,6 +27,8 @@
 
             <div class="row no-wrap items-center">
               <div class="col text-h6 ellipsis text-primary store-title ">
+                
+                <!-- Store title - Link to store -->
                 <q-item
                 clickable
                 min-height="30px"
@@ -34,6 +42,7 @@
             </div>
           </q-card-section>
 
+          <!-- Store Description -->
           <q-card-section class="q-pt-none">
             <div class="text-caption text-white">
               {{ store.description }}
@@ -52,16 +61,16 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
-import locationStore from '../components/modals/Location.vue'
-import { useFirebaseStore } from 'stores/firebase'
-const storeFirebase= useFirebaseStore();
-const location= ref(false)
+  import { ref } from "vue";
+  import locationStore from '../components/modals/Location.vue'
+  import { useFirebaseStore } from 'stores/firebase'
+  const storeFirebase= useFirebaseStore();
+  const location= ref(false)
 </script>
 <style scope lang="scss">
-.store-title {
-    .q-item {
-      min-height: 30px;
-    }
-}
+  .store-title {
+      .q-item {
+        min-height: 30px;
+      }
+  }
 </style>

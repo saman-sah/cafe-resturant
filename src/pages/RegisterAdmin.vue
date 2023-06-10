@@ -1,8 +1,12 @@
 <template>
     <div class="q-pa-md q-my-lg">
         <div class="q-gutter-y-md" >
-            <form @submit.prevent="registerValidationForm" 
-            class="bg-dark q-pa-lg column rounded-borders">
+            <form 
+            @submit.prevent="registerValidationForm" 
+            class="bg-dark q-pa-lg column rounded-borders"
+            >
+
+                <!-- Name input field -->
                 <q-input 
                 outlined 
                 v-model="formData.name" 
@@ -11,6 +15,8 @@
                 lazy-rules
                 :rules="[ val => val && val.length > 0 || 'Please type your name']"
                 />
+
+                <!-- Email input field -->
                 <q-input 
                 outlined 
                 v-model="formData.email" 
@@ -20,6 +26,8 @@
                 lazy-rules
                 :rules="[ val => val && val.length > 0 || 'Please type your email']"
                 />
+
+                <!-- Store Title input field -->
                 <q-input 
                 outlined 
                 v-model="formData.store.title" 
@@ -29,6 +37,8 @@
                 lazy-rules
                 :rules="[ val => val && val.length > 0 || 'Please type your store title']"
                 />
+
+                <!-- Store Description input field -->
                 <q-input 
                 outlined 
                 v-model="formData.store.description" 
@@ -38,6 +48,8 @@
                 lazy-rules
                 :rules="[ val => val && val.length > 0 || 'Please type your store description']"
                 />
+
+                <!-- Store Location input field -->
                 <q-input 
                 outlined 
                 v-model="formData.store.location" 
@@ -47,6 +59,8 @@
                 lazy-rules
                 :rules="[ val => val && val.length > 0 || 'Please type your store location']"
                 />
+
+                <!-- Store Address input field -->
                 <q-input 
                 outlined 
                 v-model="formData.store.address" 
@@ -56,6 +70,8 @@
                 lazy-rules
                 :rules="[ val => val && val.length > 0 || 'Please type your store address']"
                 />
+
+                <!-- Store Image file input field -->
                 <q-file
                 outlined 
                 v-model="formData.store.image" 
@@ -71,6 +87,8 @@
                     <q-icon name="attach_file" />
                 </template>
                 </q-file>
+
+                <!-- Password input field -->
                 <q-input 
                 :type="isPwd ? 'password' : 'text'"
                 outlined 
@@ -91,8 +109,14 @@
                         />
                     </template>
                 </q-input>
+
+                <!-- Submit form button -->
                 <div class="row justify-end">
-                    <q-btn color="primary" label="Register" type="submit"/>
+                    <q-btn 
+                    color="primary" 
+                    label="Register" 
+                    type="submit"
+                    />
                 </div>
             </form>
         </div>
@@ -100,26 +124,30 @@
 </template>
 
 <script setup>
-import { reactive, ref } from "vue";
-import { useFirebaseStore } from 'stores/firebase'
-const storeFirebase= useFirebaseStore();
-const isPwd= ref(true)
-const formData= reactive({
-    role: 'admin',
-    name:'',
-    email:'',    
-    password:'',
-    store: {
-        title: '',
-        description: '',
-        image: '',
-        location: '',
-        address:'',
-    },
-})
-function registerValidationForm() {
-    storeFirebase.register(formData)
-}
+    import { reactive, ref } from "vue";
+    import { useFirebaseStore } from 'stores/firebase'
+    const storeFirebase= useFirebaseStore();
+    const isPwd= ref(true)
+
+    // FormData Object
+    const formData= reactive({
+        role: 'admin',
+        name:'',
+        email:'',    
+        password:'',
+        store: {
+            title: '',
+            description: '',
+            image: '',
+            location: '',
+            address:'',
+        },
+    })
+
+    // Create Store - User form - Function
+    function registerValidationForm() {
+        storeFirebase.register(formData)
+    }
 </script>
 
 <style>

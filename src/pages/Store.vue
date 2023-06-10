@@ -1,6 +1,8 @@
 <template>
     <q-page class="q-pa-md store" v-if="storeFirebase.products">
         <q-banner inline-actions rounded class="text-dark bg-primary q-mb-md">
+
+            <!-- Title and Amount store product -->
             <strong><span class="text-secondary">{{ storeFirebase.storeInfo.title }}</span>
                  has 
                 <span v-if="storeFirebase.productsCount">{{ storeFirebase.productsCount }}</span> 
@@ -10,7 +12,8 @@
                 <q-icon name="store" size="md" ></q-icon>
             </template>
         </q-banner>
-        <!-- Tabs -->
+        
+        <!-- Tabs of Categories -->
         <q-tabs        
         v-model="category"
         inline-label
@@ -31,19 +34,25 @@
         <!-- Panles -->
         <q-tab-panels v-model="category" animated class="shadow-5">
 
-            <!-- Fast Food Pnel -->
+            <!-- All Product Panel -->
             <q-tab-panel name="allProducts">
-                <q-card class="my-card q-mb-md bg-dark" 
+                <q-card 
+                class="my-card q-mb-md bg-dark" 
                 v-for="(product, key) in storeFirebase.products" 
-                :key="key">                
+                :key="key"
+                >                
                     <q-card-section horizontal>
                         <q-img
                         class="col-4"
                         :src="product.image"
                         />
 
-                        <q-card-section class="q-pa-md title bg-dark col-8 column justify-between" style="min-height: 100%;" >
-                            <q-item class="title-price row justify-between items-top q-pa-none"
+                        <q-card-section 
+                        class="q-pa-md title bg-dark col-8 column justify-between" 
+                        style="min-height: 100%;"
+                        >
+                            <q-item 
+                            class="title-price row justify-between items-top q-pa-none"
                             clickable
                             flat
                             tag="a"
@@ -73,20 +82,24 @@
                 </q-card>                  
             </q-tab-panel>
 
-            <!-- Fast Food Pnel -->
+            <!-- Fast Food Panel -->
             <q-tab-panel name="fastfood">
-                <template v-for="(product, key) in storeFirebase.products" 
-                :key=" key">
-                
-                    <q-card class="my-card q-mb-md bg-dark" 
-                    v-if="product.category== 'fastfood'">                
+                <template 
+                v-for="(product, key) in storeFirebase.products" 
+                :key=" key"
+                >                
+                    <q-card 
+                    class="my-card q-mb-md bg-dark" 
+                    v-if="product.category== 'fastfood'"
+                    >
                         <q-card-section horizontal>
                             <q-img
                             class="col-4"
                             :src="product.image"
                             />                            
                             <q-card-section class="q-pa-md title bg-dark col-8" >
-                                <q-item class="title-price row justify-between items-top q-pa-none"
+                                <q-item 
+                                class="title-price row justify-between items-top q-pa-none"
                                 clickable
                                 flat
                                 tag="a"
@@ -117,11 +130,14 @@
                 </template>                    
             </q-tab-panel>
 
-            <!-- Hot Drinks Pnel -->
+            <!-- Hot Drinks Panel -->
             <q-tab-panel name="hot">
-                <template v-for="(product, key) in storeFirebase.products" 
-                :key="key">
-                    <q-card class="my-card q-mb-md bg-dark" 
+                <template 
+                v-for="(product, key) in storeFirebase.products" 
+                :key="key"
+                >
+                    <q-card 
+                    class="my-card q-mb-md bg-dark" 
                     v-if="product.category== 'hot'"
                     >                
                         <q-card-section horizontal>
@@ -131,7 +147,8 @@
                             />
 
                             <q-card-section class="q-pa-md title bg-dark col-8" >
-                                <q-item class="title-price row justify-between items-top q-pa-none"
+                                <q-item 
+                                class="title-price row justify-between items-top q-pa-none"
                                 clickable
                                 flat
                                 tag="a"
@@ -162,7 +179,7 @@
                 </template>
             </q-tab-panel>
 
-            <!-- Cold Drinks Pnel -->
+            <!-- Cold Drinks Panel -->
             <q-tab-panel name="cold">
                 <template 
                 v-for="(product, key) in storeFirebase.products" 
@@ -178,7 +195,8 @@
                             />
 
                             <q-card-section class="q-pa-md title bg-dark col-8" >
-                                <q-item class="title-price row justify-between items-top q-pa-none"
+                                <q-item 
+                                class="title-price row justify-between items-top q-pa-none"
                                 clickable
                                 flat
                                 tag="a"
