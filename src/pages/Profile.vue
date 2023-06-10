@@ -57,6 +57,23 @@
                                     Role: {{ storeFirebase.userInfo.role }}
                                 </q-item-section>
                             </q-item>
+                            <q-item v-ripple class="q-mt-md">
+                                <q-btn 
+                                padding="xs"
+                                color="primary" 
+                                icon="edit" 
+                                label="Edit User"
+                                class="col q-mr-sm"
+                                @click="updateUserInfo(storeFirebase.userInfo)"
+                                />
+                                <q-btn
+                                padding="xs"
+                                color="secondary"
+                                icon="delete"
+                                class="col q-ml-sm"
+                                label="Delete User"
+                                />
+                            </q-item>
                         </q-list>
                     </q-card-section>
                 </q-card>
@@ -215,6 +232,14 @@
       />
     </q-dialog>
     
+    <!-- Update User Modal -->
+    <q-dialog v-model="showModalEditUser" full-width>
+      <UpdateUser
+      :userInfo="userEdited"
+      @closePopup="showModalEditUser= false"
+      />
+    </q-dialog>
+    
     <!-- Update Product Modal -->
     <q-dialog v-model="updateProductModal" full-width>
         <UpdateProduct         
@@ -231,15 +256,18 @@
     import AddProduct from '../components/admin/AddProduct.vue'
     import UpdateProduct from '../components/admin/UpdateProduct.vue'
     import UpdateStore from '../components/modals/UpdateStore.vue'
+    import UpdateUser from '../components/modals/UpdateUser.vue'
     import { useFirebaseStore } from 'stores/firebase'
     const storeFirebase= useFirebaseStore();
-    const tab= ref('storeProfile')
+    const tab= ref('userProfile')
     const showModalEditStore= ref(false)
     const productEdited= ref(null)
+    const userEdited= ref(null)
     const productId= ref(null)
     const storeEdited= ref(null)
     const addProductModal= ref(false)
     const updateProductModal= ref(false)
+    const showModalEditUser= ref(false)
     function updateProduct(product, updateProductId) {
         productEdited.value=product
         productId.value=updateProductId
@@ -250,6 +278,10 @@
     function updateStore(store) {
         storeEdited.value=store
         showModalEditStore.value = true
+    }
+    function updateUserInfo(userInfo) {
+        userEdited.value=userInfo
+        showModalEditUser.value = true
     }
 </script>
 
