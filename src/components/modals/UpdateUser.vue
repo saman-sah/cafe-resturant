@@ -6,26 +6,37 @@
         class="bg-dark q-pa-lg column rounded-borders"
         >
         
-        <!-- Store Title input field -->
+        <!-- User name input field -->
         <q-input 
         outlined 
         v-model="props.userInfo.name" 
-        label="Store Title"  
+        label="Name"  
         class="q-my-md"
         dark
         lazy-rules
-        :rules="[ val => val && val.length > 0 || 'Please type your store title']"
+        :rules="[ val => val && val.length > 0 || 'Please type your real name']"
         />
 
-        <!-- Store Description input field -->
+        <!-- User email input field -->
         <q-input 
         outlined 
         v-model="props.userInfo.email" 
-        label="Store Description"  
+        label="Email"  
         class="q-my-md"
         dark
         lazy-rules
-        :rules="[ val => val && val.length > 0 || 'Please type your store description']"
+        :rules="[ val => val && val.length > 0 || 'Please type your email']"
+        />
+
+        <!-- User Password input field -->
+        <q-input 
+        outlined 
+        v-model="props.userInfo.password" 
+        label="New Password"  
+        class="q-my-md"
+        dark
+        lazy-rules
+        :rules="[ val ? val => val && val.length > 6 || 'Your password have to be at least 6 charachter' : '']"
         />
        
         <!-- Store Image file input field -->

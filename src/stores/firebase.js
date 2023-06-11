@@ -7,6 +7,8 @@ import {
     auth, 
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
+    updateEmail,
+    updatePassword,
     signOut,
     // Database Firebase
     db,
@@ -55,10 +57,49 @@ export const useFirebaseStore = defineStore('firebase', {
     actions: { 
         updateUserInfo(userInfo) {
             let userId= auth.currentUser.uid
+            let user= auth.currentUser
             update(ref(db, 'users/' + userId),{
                 name : userInfo.name,
-                email : userInfo.email,
             })
+            
+            if(userInfo.email != auth.currentUser.email) {
+                updateEmail(user, userInfo.email)
+                .then((res) => {
+                    // Email updated successfully
+                    update(ref(db, 'users/' + userId),{
+                        email : userInfo.email,
+                    })
+                    this.logOut();
+                    Notify.create({
+                        message: 'Your Email is updated',
+                        caption: 'You are loggedout please Login with new Email',
+                        color: 'secondary',
+                        timeout: '2000'
+                    })
+                })
+                .catch((error) => {
+                    // An error occurred
+                    console.log(error.message);
+                });
+            }
+            if(userInfo.password) {
+                console.log('if(userInfo.password)');
+                updatePassword(user, userInfo.password)
+                .then(() => {
+                    this.logOut();
+                    Notify.create({
+                        message: 'Your Password is updated',
+                        caption: 'You are loggedout please Login with new Password',
+                        color: 'secondary',
+                        timeout: '2000'
+                    })
+                })
+                .catch((error) => {
+                    // An error occurred
+                    console.log(error.message);
+                });
+            }
+            
         },
         
         // Update store
