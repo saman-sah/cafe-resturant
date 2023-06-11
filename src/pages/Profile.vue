@@ -21,268 +21,33 @@
 
             <!-- User Info -->
             <q-tab-panel name="userProfile" class="userProfile">
-                <q-card 
-                v-if="storeFirebase.userInfo"
-                class="my-card bg-dark text-white" 
-                flat 
-                bordered
-                >
-                    <q-card-section>
-                        <q-list dense bordered padding class="rounded-borders">
-                            <q-item v-ripple >
-                                <q-item-section avatar>
-                                    <q-icon color="primary" name="account_circle" />
-                                </q-item-section>
-                                <q-item-section class="q-py-md text-h6">
-                                    {{ storeFirebase.userInfo.name }}
-                                </q-item-section>
-                            </q-item>
-
-                            <q-separator inset dark />
-
-                            <q-item v-ripple >
-                                <q-item-section avatar>
-                                    <q-icon color="primary" name="mail" />
-                                </q-item-section>
-                                <q-item-section class="q-py-md">
-                                    Email: {{ storeFirebase.userInfo.email }}
-                                </q-item-section>
-                            </q-item>
-
-                            <q-item v-ripple>
-                                <q-item-section avatar>
-                                    <q-icon color="primary" name="description" />
-                                </q-item-section>
-                                <q-item-section class="q-py-md">
-                                    Role: {{ storeFirebase.userInfo.role }}
-                                </q-item-section>
-                            </q-item>
-                            <q-item v-ripple class="q-mt-md">
-                                <q-btn 
-                                padding="xs"
-                                color="primary" 
-                                icon="edit" 
-                                label="Edit User"
-                                class="col q-mr-sm"
-                                @click="updateUserInfo(storeFirebase.userInfo)"
-                                />
-                                <q-btn
-                                padding="xs"
-                                color="secondary"
-                                icon="delete"
-                                class="col q-ml-sm"
-                                label="Delete User"
-                                />
-                            </q-item>
-                        </q-list>
-                    </q-card-section>
-                </q-card>
+                <UserPanel />
             </q-tab-panel>
 
             <!-- Store Info -->
             <q-tab-panel name="storeProfile" class="storeProfile">
-                <q-card 
-                v-if="storeFirebase.storeInfo"
-                class="my-card bg-dark text-white" 
-                flat 
-                bordered
-                >
-                    <q-img :src="storeFirebase.storeInfo.image" >
-                        <div class="absolute-top text-subtitle1 text-center">
-                            Resturan/Cafe
-                        </div>
-                    </q-img>
-
-                    <q-card-section>
-                        <q-list dense bordered padding class="rounded-borders">
-
-                            <!-- Store Title -->
-                            <q-item v-ripple >
-                                <q-item-section avatar>
-                                    <q-icon color="primary" name="storefront" />
-                                </q-item-section>
-                                <q-item-section class="q-py-md text-h6">
-                                    {{ storeFirebase.storeInfo.title }}
-                                </q-item-section>
-                            </q-item>
-
-                            <q-separator inset dark />
-
-                            <!-- Store Description -->
-                            <q-item v-ripple >
-                                <q-item-section avatar>
-                                    <q-icon color="primary" name="description" />
-                                </q-item-section>
-                                <q-item-section class="q-py-md">
-                                    {{ storeFirebase.storeInfo.description }}
-                                </q-item-section>
-                            </q-item>
-
-                            <!-- Store Location -->
-                            <q-item v-ripple >
-                                <q-item-section avatar>
-                                    <q-icon color="primary" name="location_on" />
-                                </q-item-section>
-                                <q-item-section class="q-py-md">
-                                    {{ storeFirebase.storeInfo.address }}
-                                </q-item-section>
-                            </q-item>
-
-                            <q-separator inset dark />
-
-                            <q-item v-ripple class="q-mt-md">
-                                <q-btn 
-                                padding="xs"
-                                color="primary" 
-                                icon="edit" 
-                                label="Edit Store"
-                                class="col q-mr-sm"
-                                @click="updateStore(storeFirebase.storeInfo)"
-                                />
-                                <q-btn
-                                padding="xs"
-                                color="secondary"
-                                icon="delete"
-                                class="col q-ml-sm"
-                                label="Delete Store"
-                                />
-                            </q-item>
-                           
-                        </q-list>
-                    </q-card-section>                    
-                </q-card>
+                <StorePanel />
             </q-tab-panel>
 
             <!-- My Store Products -->
             <q-tab-panel name="storeProducts" class="storeProducts">
-                <q-item 
-                @click="addProductModal= true"
-                clickable 
-                tag="a"
-                v-ripple
-                class="bg-primary rounded-borders q-my-md text-center text-h6"
-                >
-                    <q-item-section>
-                        Add New Product 
-                    </q-item-section>
-                </q-item>
-                <template v-if="storeFirebase.products">
-                    <q-card class="my-card q-mb-md bg-dark" 
-                    v-for="(product, key, index) in storeFirebase.products" 
-                    :key="key+index">                
-                        <q-card-section horizontal>
-                            <q-img
-                            class="col-4"
-                            :src="product.image"
-                            />
-
-                            <q-card-section class="q-pa-md title bg-dark col-8" >
-                                <q-item class="title-price row justify-between items-top q-pa-none"
-                                clickable
-                                flat
-                                tag="a"
-                                to="/store/resturant/title"
-                                >
-                                    <span class="text-primary text-h6 ">
-                                        {{ product.title }}
-                                    </span>
-                                    <span class="text-h6 text-white">${{ product.price }}</span>
-                                </q-item>
-                                <q-item class="title-price row justify-between items-top q-pa-none">
-                                    <div class="description row">
-                                        <div class="text-caption text-white ">
-                                            {{ product.description }}
-                                        </div>
-                                    </div>
-                                    <div class="btn-recipe">
-                                        <q-btn 
-                                        padding="xs"
-                                        color="primary" 
-                                        icon="edit" 
-                                        @click="updateProduct(product, key)"
-                                        />
-                                        <q-btn
-                                        padding="xs"
-                                        color="secondary"
-                                        icon="delete"
-                                        class="q-ml-md"
-                                        @click="storeFirebase.deleteProduct(key, product.title)"
-                                        />
-                                    </div>
-                                </q-item>
-                            </q-card-section>
-                        </q-card-section>
-                    </q-card>
-                </template>
-                                
+                <ProductsPanel />
             </q-tab-panel>
         </q-tab-panels>
     </q-card> 
-
-    <!-- Add Product Modal -->
-    <q-dialog v-model="addProductModal" full-width>
-      <AddProduct @closePopup="addProductModal= false"/>
-    </q-dialog> 
     
-    <!-- Update Store Modal -->
-    <q-dialog v-model="showModalEditStore" full-width>
-      <UpdateStore 
-      :store="storeEdited"
-      @closePopup="showModalEditStore= false"
-      />
-    </q-dialog>
-    
-    <!-- Update User Modal -->
-    <q-dialog v-model="showModalEditUser" full-width>
-      <UpdateUser
-      :userInfo="userEdited"
-      @closePopup="showModalEditUser= false"
-      />
-    </q-dialog>
-    
-    <!-- Update Product Modal -->
-    <q-dialog v-model="updateProductModal" full-width>
-        <UpdateProduct         
-        :product="productEdited" 
-        :productId="productId"
-        @closePopup="updateProductModal= false"
-        />
-    </q-dialog> 
   </q-page>
 </template>
 
 <script setup>
-    import { ref } from "vue";
-    import AddProduct from '../components/admin/AddProduct.vue'
-    import UpdateProduct from '../components/admin/UpdateProduct.vue'
-    import UpdateStore from '../components/modals/UpdateStore.vue'
-    import UpdateUser from '../components/modals/UpdateUser.vue'
+    import UserPanel from '../components/admin/UserPanel.vue'
+    import StorePanel from '../components/admin/StorePanel.vue'
+    import ProductsPanel from '../components/admin/ProductsPanel.vue'
     import { useFirebaseStore } from 'stores/firebase'
+    import { ref } from "vue";
     const storeFirebase= useFirebaseStore();
     const tab= ref('userProfile')
-    const showModalEditStore= ref(false)
-    const productEdited= ref(null)
-    const userEdited= ref(null)
-    const productId= ref(null)
-    const storeEdited= ref(null)
-    const addProductModal= ref(false)
-    const updateProductModal= ref(false)
-    const showModalEditUser= ref(false)
-    function updateProduct(product, updateProductId) {
-        productEdited.value=product
-        productId.value=updateProductId
-        // console.log(productEdited.value);
-        console.log(productEdited.value);
-        updateProductModal.value= true
-    }
-    function updateStore(store) {
-        storeEdited.value=store
-        showModalEditStore.value = true
-    }
-    function updateUserInfo(userInfo) {
-        userEdited.value=userInfo
-        showModalEditUser.value = true
-    }
+
 </script>
 
 <style>
