@@ -3,6 +3,8 @@ import {
   getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  updateEmail,
+  updatePassword,
   signOut 
 } from "firebase/auth";
 import { 
@@ -46,6 +48,8 @@ let db= getDatabase(firebaseApp);
 let storage= getStorage(firebaseApp)
 export { 
     auth, 
+    updateEmail,
+    updatePassword,
     db, 
     ref, 
     onValue, 
