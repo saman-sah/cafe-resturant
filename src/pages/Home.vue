@@ -1,12 +1,12 @@
 <template>
   <q-page class="home">
-    
-    <div class="row justify-around" v-if="storeFirebase.stores">
+
+    <div class="row justify-between" v-if="storeFirebase.stores">
 
       <!-- List of Stores -->
       <div v-for="(store, key) in storeFirebase.stores"
       :key="key"      
-      class="item q-pa-sm q-mb-sm col-auto" style="min-width: 240px">
+      class="item q-pa-sm q-mb-sm col-xs-6 col-sm-4 col-md-4 col-lg-3" >
         <q-card class="my-card bg-dark card-item-store" flat bordered >
 
           <!-- Store Image -->

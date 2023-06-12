@@ -50,14 +50,32 @@
                     icon="delete"
                     class="col q-ml-sm"
                     label="Delete User"
-                    @click="storeFirebase.deleteUser(storeFirebase.userInfo)"
+                    @click="confirmDelete = true"
                     />
                 </q-item>
             </q-list>
         </q-card-section>
     </q-card>
 
-    
+    <q-dialog v-model="confirmDelete" medium>
+      <q-card style="min-height: 200px; width: 700px; max-width: 80vw;" class="column justify-around">
+        <q-card-section class="row items-center">
+          <q-avatar icon="delete" color="secondary" text-color="white" size="38px"/>
+          <span class="q-ml-sm text-h6">You are sure?</span>
+        </q-card-section>
+        <q-card-section v-if="storeFirebase.userInfo && storeFirebase.userInfo.role== 'admin'">
+            <q-avatar icon="error" color="primary" text-color="white" size="38px"/>
+          <span class="q-ml-sm text-caption2">This delete your account, your store and your products store</span>
+        </q-card-section>
+        <q-card-actions align="right">
+          <q-btn  label="Cancel" color="primary" v-close-popup />
+          <q-btn label="Confirm" color="secondary" v-close-popup 
+          @click="storeFirebase.deleteUser(storeFirebase.userInfo)"/>
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
+
+
     <!-- Update User Modal -->
     <q-dialog v-model="showModalEditUser" full-width>
         <UpdateUser
@@ -73,6 +91,7 @@
     import { ref } from 'vue';
     const storeFirebase= useFirebaseStore();
     const userEdited= ref(null)
+    const confirmDelete= ref(false)
     const showModalEditUser= ref(false)
     function updateUserInfo(userInfo) {
         userEdited.value=userInfo
