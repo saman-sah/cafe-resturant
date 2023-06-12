@@ -5,6 +5,7 @@ import {
   signInWithEmailAndPassword,
   updateEmail,
   updatePassword,
+  deleteUser,
   signOut 
 } from "firebase/auth";
 import { 
@@ -12,7 +13,8 @@ import {
   ref as storageRef,
   uploadBytes,
   getDownloadURL,
-  deleteObject
+  deleteObject,
+  listAll 
 } from "firebase/storage";
 import { 
   getDatabase, 
@@ -51,6 +53,7 @@ export {
     updateEmail,
     updatePassword,
     db, 
+    deleteUser,
     ref, 
     onValue, 
     createUserWithEmailAndPassword,
@@ -70,6 +73,7 @@ export {
     // off,
     get,
     child,
-    deleteObject
+    deleteObject,
+    listAll
     
 }

@@ -50,6 +50,7 @@
                     icon="delete"
                     class="col q-ml-sm"
                     label="Delete User"
+                    @click="storeFirebase.deleteUser(storeFirebase.userInfo)"
                     />
                 </q-item>
             </q-list>
