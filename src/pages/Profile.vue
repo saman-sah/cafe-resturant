@@ -11,8 +11,8 @@
         narrow-indicator
         >
             <q-tab name="userProfile" label="User" />
-            <q-tab v-if="storeFirebase.storeInfo" name="storeProfile" label="Store" />
-            <q-tab v-if="storeFirebase.storeInfo" name="storeProducts" label="Products" @click.once="storeFirebase.getStoreProducts(storeFirebase.storeInfo.storeId)"/>
+            <q-tab v-if="storeFirebase.userInfo && storeFirebase.userInfo.role== 'admin'" name="storeProfile" label="Store" />
+            <q-tab v-if="storeFirebase.userInfo && storeFirebase.userInfo.role== 'admin'" name="storeProducts" label="Products" @click.once="storeFirebase.getStoreProducts(storeFirebase.storeInfo.storeId)"/>
         </q-tabs>
 
         <q-separator />

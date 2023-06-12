@@ -9,6 +9,7 @@ import {
     signInWithEmailAndPassword,
     updateEmail,
     updatePassword,
+    deleteUser,
     signOut,
     // Database Firebase
     db,
@@ -28,7 +29,8 @@ import {
     storageRef,
     uploadBytes,
     getDownloadURL,
-    deleteObject
+    deleteObject,
+    listAll
 } from '../boot/firebase'
 export const useFirebaseStore = defineStore('firebase', {
     state: () => ({
@@ -201,6 +203,84 @@ export const useFirebaseStore = defineStore('firebase', {
                 })
         },
 
+        deleteUser(userInfo) {
+
+            // Delete products images
+            deleteObject(storageRef(storage, 'products/Cz7aegEhJ3RxbBfMaUBmxyaHORA3' ))
+            .then(() => {
+                console.log('products images deleted');
+            }).catch((error) => {
+                console.log('// Uh-oh, an error occurred!');                        
+            });
+            const user= auth.currentUser;
+            const userId= auth.currentUser.uid;
+            if(userInfo.role== 'user') {
+                console.log('role user');                
+                deleteUser(user)
+                .then(()=> {
+                    this.logOut();
+                    remove(ref(db, 'users/' + userId))
+                    .then(()=> {
+                        Notify.create({
+                            message: 'User is deleted',
+                            color: 'secondary',
+                            timeout: '1500'
+                        })
+                    })
+                })
+            }else {
+                console.log('role admin');
+                //Delete User
+                deleteUser(user)                
+                .then(()=> {
+                    this.logOut();
+
+                    // Delete UserInfo
+                    remove(ref(db, 'users/' + userId))
+                    .then(()=> {
+                        console.log('user deleted');
+                    })
+
+                    // Delete Store
+                    remove(ref(db, 'stores/' + userId))
+                    .then(()=> {
+                        console.log('store deleted');
+                    })
+
+                    // Delete Store image
+                    deleteObject(storageRef(storage, 'stores/'+ userId ))
+                    .then(() => {
+                        console.log('store image deleted');
+                    }).catch((error) => {
+                        console.log('// Uh-oh, an error occurred!');                        
+                    });
+
+                    // Delete Store Products
+                    remove(ref(db, 'products/' + userId))
+                    .then(()=> {
+                        console.log('products deleted');
+                    })
+
+                    // Delete products images
+                    listAll(storageRef(storage, 'products/' + userId))
+                    .then((listResults) => {
+                        listResults.items.map((item) => {
+                            deleteObject(storageRef(storage, item._location.path))
+                            .then(() => {
+                                console.log('product image deleted');
+                            }).catch((error) => {
+                                console.log('// Uh-oh, an error occurred!');                        
+                            });
+                        });
+                    }).catch((error) => {
+                        // Uh-oh, an error occurred!
+                        console.log('Uh-oh, an error occurred!');
+                    });
+
+                })
+            }
+        },
+
         // Get Stores
         getStoresFirebase() {
             onValue(ref(db, 'stores'), (snapshot) => {
@@ -275,36 +355,36 @@ export const useFirebaseStore = defineStore('firebase', {
             onChildRemoved(ref(db, 'products/'+ storeId), (snapshot) => {
                 const product = snapshot.val();
                 const productKey = snapshot.key;
-                    if(product) {                                            
-                        delete this.products[productKey];  
-                        this.productsCount--                        
-                    }
-                    this.stopBar();
-              });
+                if(product) {
+                    delete this.products[productKey];
+                    this.productsCount--
+                }
+                this.stopBar();
+            });
             onChildAdded(ref(db, 'products/'+ storeId), (snapshot) => {
                 console.log('On Child Added');
                 const product = snapshot.val();
                 const productKey = snapshot.key;
-                    if(product) {                    
-                        this.products[productKey]=product;  
-                        this.productsCount++ 
-                    }
-                    this.stopBar();
-              });
-              onChildChanged(ref(db, 'products/'+ storeId), (snapshot) => {
+                if(product) {
+                    this.products[productKey]=product;
+                    this.productsCount++
+                }
+                this.stopBar();
+            });
+            onChildChanged(ref(db, 'products/'+ storeId), (snapshot) => {
                 console.log('On Child Change');
                 const product = snapshot.val();
                 const productKey = snapshot.key;
-                    if(product) {                    
-                        this.products[productKey]=product;  
-                        this.productsCount++ 
-                    }
-                    this.stopBar();
-              });
-              
+                if(product) {
+                    this.products[productKey]=product;
+                    this.productsCount++
+                }
+                this.stopBar();
+            });
+            this.stopBar();
               
         },
-        
+
         // Check User Logged In
         handleAuthStateChange() {
             auth.onAuthStateChanged(user=> {
@@ -408,8 +488,7 @@ export const useFirebaseStore = defineStore('firebase', {
                                     slug: userData.store.title.toLowerCase().replace(/[^\w-]+/g, "-"),
                                     products: {}
                                 })     
-                                this.router.push('/')  
-                                this.stopBar();                          
+                                this.router.push('/')                                                            
                             })
                             // Catch error for getting store image url
                             .catch((error) => {
@@ -428,7 +507,8 @@ export const useFirebaseStore = defineStore('firebase', {
                     }
                 }).catch(err=> {
                     console.log(err.message);
-                })                
+                })   
+                this.stopBar();             
             })
             .catch(error=> {
                 switch (error.code) {

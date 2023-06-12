@@ -28,7 +28,7 @@
                     </q-item>
 
                     <!-- My Store link -->
-                    <q-item v-if="storeFirebase.storeInfo" 
+                    <q-item v-if="storeFirebase.userInfo && storeFirebase.userInfo.role=='admin'" 
                     clickable 
                     v-close-popup  
                     tag="a" 
